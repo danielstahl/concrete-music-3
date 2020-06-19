@@ -99,7 +99,7 @@ SynthDef(\playRight, {
 	Line.kr(dur:dur, doneAction:2);
 	input = In.ar(in, 2);
 
-	Out.ar(out, input[0]);
+	Out.ar(out, input[1]);
 }).add;
 
 SynthDef(\mix, {
