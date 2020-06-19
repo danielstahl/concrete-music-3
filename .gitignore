@@ -8,3 +8,4 @@ project/project
 .metals
 metals.sbt
 .DS_Store
+.vscode
