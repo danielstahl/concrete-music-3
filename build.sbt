@@ -11,3 +11,5 @@ libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2"
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
 
 libraryDependencies += "net.soundmining" %% "soundmining-tools" % "1.0-SNAPSHOT"
+
+libraryDependencies += "net.soundmining" %% "soundmining-modular" % "1.0-SNAPSHOT"

@@ -4,6 +4,7 @@ import net.soundmining.Instrument.{setupNodes}
 import scala.io.StdIn
 import net.soundmining.Instrument.TAIL_ACTION
 import net.soundmining.Utils.absoluteTimeToMillis
+import net.soundmining.Instruments
 
 object MusiqueConcrete3 {
   
@@ -20,13 +21,13 @@ object MusiqueConcrete3 {
 
         println("Hello world")
 
-        val playLeft = Instruments.playLeftChannel(Instruments.playBuffer(0, 0.5f, 0, 2), 0.5f, 0, 2)    
+        val playLeft = Instruments.left(Instruments.playBuffer(0, 0.5f, 0, 2))    
             .addAction(TAIL_ACTION)
 
-        val playRight = Instruments.playRightChannel(Instruments.playBuffer(0, 0.49f, 0, 2), 0.49f, 0, 2)
+        val playRight = Instruments.right(Instruments.playBuffer(0, 0.49f, 0, 2))
             .addAction(TAIL_ACTION)
         
-        val expand = Instruments.expand(playLeft, playRight, 0.5f, 0, 2)
+        val expand = Instruments.expand(playLeft, playRight)
             .addAction(TAIL_ACTION)
 
         
