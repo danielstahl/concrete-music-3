@@ -4,7 +4,7 @@ import net.soundmining.Instrument.{setupNodes}
 import scala.io.StdIn
 import net.soundmining.Instrument.TAIL_ACTION
 import net.soundmining.Utils.absoluteTimeToMillis
-import net.soundmining.Instruments
+import net.soundmining.modular.Instruments._
 
 object MusiqueConcrete3 {
   
@@ -21,20 +21,20 @@ object MusiqueConcrete3 {
 
         println("Hello world")
 
-        val playLeft = Instruments.left(Instruments.playBuffer(0, 0.5f, 0, 2))    
+        
+        val playLeft = highPassFilter(left(playBuffer(0, 0.5f, 0, 2, staticControl(1f)), staticControl(1f)), staticControl(2000))
             .addAction(TAIL_ACTION)
 
-        val playRight = Instruments.right(Instruments.playBuffer(0, 0.49f, 0, 2))
+        val playRight = highPassFilter(right(playBuffer(0, 0.49f, 0, 2, staticControl(1.0f)), staticControl(1f)), staticControl(2000))
             .addAction(TAIL_ACTION)
         
-        val expand = Instruments.expand(playLeft, playRight)
+        val expanded = expand(playLeft, playRight)
             .addAction(TAIL_ACTION)
 
         
-        expand.getOutputBus.staticBus(0)
-        val graph = expand.buildGraph(0, 4, expand.graph(Seq()))
-        player.sendNew(absoluteTimeToMillis(0), graph)    
-
+        expanded.getOutputBus.staticBus(0)
+        val graph = expanded.buildGraph(0, 4, expanded.graph(Seq()))
+        player.sendNew(absoluteTimeToMillis(0), graph)
         
 
         Console.println("Print q to quit")
