@@ -2,7 +2,7 @@ name := "musique-concrete-iii"
 
 version := "1.0-SNAPSHOT"
 
-scalaVersion := "2.13.2"
+scalaVersion := "2.13.3"
 
 libraryDependencies += "com.illposed.osc" % "javaosc-core" % "0.2"
 
