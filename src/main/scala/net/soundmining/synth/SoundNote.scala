@@ -1,23 +1,18 @@
-package net.soundmining
+package net.soundmining.synth
 
-import net.soundmining.Instrument.{setupNodes}
-import scala.io.StdIn
-import net.soundmining.Instrument.TAIL_ACTION
-import net.soundmining.Utils.absoluteTimeToMillis
-import net.soundmining.modular.Instruments._
-import net.soundmining.Instrument.SINE
-import net.soundmining.modular.ModularInstrument.AudioInstrument
-import net.soundmining.modular.ModularInstrument.ControlInstrument
-import net.soundmining.Instrument.EXPONENTIAL
+import net.soundmining.modular.ModularInstrument._
+import net.soundmining.modular.ModularSynth._
+import net.soundmining.synth.Instrument._
+import net.soundmining.synth.Utils._
 
-case class Audio(audio: AudioInstrument, dur: Float)
+case class Audio(audio: AudioInstrument, dur: Double)
 
-abstract class SoundNote(bufNum: Integer = 0, volume: Float = 1.0f) {
+abstract class SoundNote(bufNum: Integer = 0, volume: Double = 1.0) {
     type SelfType <: SoundNote
     def self(): SelfType
     var audio: Option[Audio] = None
 
-    def playLeft(start: Float, end: Float, rate: Float, amp: ControlInstrument): SelfType = {
+    def playLeft(start: Double, end: Double, rate: Double, amp: ControlInstrument): SelfType = {
         audio = Some(
             Audio(
                 audio = left(playBuffer(bufNum, rate, start, end, staticControl(volume)).withNrOfChannels(2).addAction(TAIL_ACTION), amp).addAction(TAIL_ACTION), 
@@ -25,7 +20,7 @@ abstract class SoundNote(bufNum: Integer = 0, volume: Float = 1.0f) {
         self()    
     }
 
-    def playRight(start: Float, end: Float, rate: Float, amp: ControlInstrument): SelfType = {
+    def playRight(start: Double, end: Double, rate: Double, amp: ControlInstrument): SelfType = {
         audio = Some(
             Audio(
                 audio = right(playBuffer(bufNum, rate, start, end, staticControl(volume)).withNrOfChannels(2).addAction(TAIL_ACTION), amp).addAction(TAIL_ACTION),
@@ -65,22 +60,23 @@ abstract class SoundNote(bufNum: Integer = 0, volume: Float = 1.0f) {
         self()
     }
 
-    def play(startTime: Float, outputBus: Integer = 0)(implicit player: MusicPlayer) = {
+    def play(startTime: Double, outputBus: Int = 0)(implicit client: SuperColliderClient) = {
         audio.foreach {
             case Audio(audioInstrument, dur) =>
                 audioInstrument.getOutputBus.staticBus(outputBus)
                 val graph = audioInstrument.buildGraph(startTime, dur, audioInstrument.graph(Seq()))
-                player.sendNew(absoluteTimeToMillis(startTime), graph)
+                
+                client.send(client.newBundle(absoluteTimeToMillis(startTime), graph))
         }
     }
 }
 
-case class MonoSoundNote(bufNum: Integer = 0, volume: Float = 1.0f) extends SoundNote(bufNum, volume) {
+case class MonoSoundNote(bufNum: Int = 0, volume: Double = 1.0) extends SoundNote(bufNum, volume) {
     override type SelfType = MonoSoundNote
     override def self(): SelfType = this
 }
 
-case class StereoSoundNote(bufNum: Integer = 0, volume: Float = 1.0f) extends SoundNote(bufNum, volume) {
+case class StereoSoundNote(bufNum: Int = 0, volume: Double = 1.0) extends SoundNote(bufNum, volume) {
     override type SelfType = StereoSoundNote
     override def self(): SelfType = this
     var leftNote: MonoSoundNote = MonoSoundNote(bufNum, volume)
