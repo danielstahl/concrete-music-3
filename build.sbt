@@ -13,3 +13,12 @@ libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
 libraryDependencies += "net.soundmining" %% "soundmining-tools" % "1.0-SNAPSHOT"
 
 libraryDependencies += "net.soundmining" %% "soundmining-modular" % "1.0-SNAPSHOT"
+
+initialCommands in console := """
+    import net.soundmining.MusiqueConcrete3
+    MusiqueConcrete3.init()
+""".trim().stripMargin
+
+cleanupCommands in console += """
+    MusiqueConcrete3.stop()
+"""
