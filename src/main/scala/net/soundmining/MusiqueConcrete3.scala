@@ -448,6 +448,135 @@ object  MusiqueConcrete3 {
         playSound("tiles-scratch-3", start + 5, volume=v4.getOrElse(0.5), rate=r4.getOrElse(0.06), pan = p4.getOrElse(0.5), highPass = soundPlays("tiles-scratch-3").highPass)
     }
 
+    def theme6v1(start: Double = 0,
+                v1: Option[(Double, Double)] = None, p1: Option[(Double, Double)] = None,
+                v2: Option[Seq[Double]] = None, p2: Option[Seq[Double]] = None,
+                v3: Option[Seq[Double]] = None, p3: Option[Seq[Double]] = None,
+                rs: Option[Double] = None, rc: Option[Double] = None): Unit = {
+
+        val start2 = start
+
+        val indices = (0 until 5)
+        val scratchPlays = Seq(Seq.fill(2)("tiles-scratch-1"), Seq.fill(2)("tiles-scratch-2"), Seq.fill(1)("tiles-scratch-1")).flatten
+        val overlaps = Melody.absolute(0.33f, Seq.fill(5)((0.66f - 0.33f) / 5))
+        val rateStart = rs.getOrElse(1.8)
+        val rateChange = rc.getOrElse(-0.03)
+        val rates = Melody.absolute(rateStart, Seq.fill(5)(rateChange))
+        val volumes2 = v2.getOrElse(Seq(0.6, 0.7, 0.8, 0.7, 0.6))
+        val pans2 = p2.getOrElse(Melody.absolute(-0.5f, Seq.fill(5)(1.0 / 5.0)))
+        val times = Melody.absolute(start2, indices.map(i => soundPlays(scratchPlays(i)).duration(rates(i)) * overlaps(i)))
+        indices.foreach(i => playSound(scratchPlays(i), times(i), volume = volumes2(i), rate=rates(i), pan = pans2(i), lowPass = soundPlays(scratchPlays(i)).lowPass))
+    }
+
+    def theme6v2(start: Double = 0,
+                v1: Option[(Double, Double)] = None, p1: Option[(Double, Double)] = None,
+                v2: Option[Seq[Double]] = None, p2: Option[Seq[Double]] = None,
+                v3: Option[Seq[Double]] = None, p3: Option[Seq[Double]] = None,
+                rs: Option[Double] = None, rc: Option[Double] = None): Unit = {
+
+        val start2 = start
+
+        val indices = (0 until 5)
+        val scratchPlays = Seq(Seq.fill(2)("tiles-scratch-1"), Seq.fill(2)("tiles-scratch-2"), Seq.fill(1)("tiles-scratch-1")).flatten
+        val overlaps = Melody.absolute(0.33f, Seq.fill(5)((0.66f - 0.33f) / 5))
+        val rateStart = rs.getOrElse(1.7)
+        val rateChange = rc.getOrElse(0.03)
+        val rates = Melody.absolute(rateStart, Seq.fill(5)(rateChange))
+        val volumes2 = v2.getOrElse(Seq(0.6, 0.7, 0.8, 0.7, 0.6))
+        val pans2 = p2.getOrElse(Melody.absolute(-0.5f, Seq.fill(5)(1.0 / 5.0)))
+        val times = Melody.absolute(start2, indices.map(i => soundPlays(scratchPlays(i)).duration(rates(i)) * overlaps(i)))
+        indices.foreach(i => playSound(scratchPlays(i), times(i), volume = volumes2(i), rate=rates(i), pan = pans2(i), lowPass = soundPlays(scratchPlays(i)).lowPass))
+    }
+
+
+    def theme6v3(start: Double = 0,
+                v1: Option[Double] = None, p1: Option[Double] = None, r1: Option[Double] = None,
+                v2: Option[Seq[Double]] = None, p2: Option[Seq[Double]] = None,
+                v3: Option[Seq[Double]] = None, p3: Option[Seq[Double]] = None,
+                rs: Option[Double] = None, rc: Option[Double] = None): Unit = {
+
+        val rate1 = r1.getOrElse(0.5)
+        val volume1 = v1.getOrElse(1.0)
+        val pans1 = p1.getOrElse(-0.5)
+        playSound("tiles-rattle-1", start, volume = volume1, rate = rate1, pan = pans1, lowPass = soundPlays("tiles-rattle-1").lowPass)
+        val start2 = start + (soundPlays("tiles-rattle-2").duration(1))
+
+        val indices = (0 until 5)
+        val scratchPlays = Seq(Seq.fill(2)("tiles-scratch-1"), Seq.fill(2)("tiles-scratch-2"), Seq.fill(1)("tiles-scratch-1")).flatten
+        val overlaps = Melody.absolute(0.33f, Seq.fill(5)((0.66f - 0.33f) / 5))
+        val rateStart = rs.getOrElse(1.8)
+        val rateChange = rc.getOrElse(-0.05)
+        val rates = Melody.absolute(rateStart, Seq.fill(5)(rateChange))
+        val volumes2 = v2.getOrElse(Seq(0.6, 0.7, 0.8, 0.7, 0.6))
+        val pans2 = p2.getOrElse(Melody.absolute(-0.5f, Seq.fill(5)(1.0 / 5.0)))
+        val times = Melody.absolute(start2, indices.map(i => soundPlays(scratchPlays(i)).duration(rates(i)) * overlaps(i)))
+        indices.foreach(i => playSound(scratchPlays(i), times(i), volume = volumes2(i), rate=rates(i), pan = pans2(i), lowPass = soundPlays(scratchPlays(i)).lowPass))
+    }
+
+    def theme6v4(start: Double = 0,
+                v1: Option[(Double, Double)] = None, p1: Option[(Double, Double)] = None,
+                v2: Option[Seq[Double]] = None, p2: Option[Seq[Double]] = None,
+                v3: Option[Seq[Double]] = None, p3: Option[Seq[Double]] = None,
+                rs: Option[Double] = None, rc: Option[Double] = None): Unit = {
+
+        val start2 = start
+
+        val indices = (0 until 5)
+        val scratchPlays = Seq(Seq.fill(2)("tiles-scratch-1"), Seq.fill(2)("tiles-scratch-2"), Seq.fill(1)("tiles-scratch-1")).flatten
+        val overlaps = Melody.absolute(0.33f, Seq.fill(5)((0.66f - 0.33f) / 5))
+        val rateStart = rs.getOrElse(1.8)
+        val rateChange = rc.getOrElse(-0.03)
+        val rates = Melody.absolute(rateStart, Seq.fill(5)(rateChange))
+        val volumes2 = v2.getOrElse(Seq(0.6, 0.7, 0.8, 0.7, 0.6))
+        val pans2 = p2.getOrElse(Melody.absolute(-0.5f, Seq.fill(5)(1.0 / 5.0)))
+        val times = Melody.absolute(start2, indices.map(i => soundPlays(scratchPlays(i)).duration(rates(i)) * overlaps(i)))
+        indices.foreach(i => playSound(scratchPlays(i), times(i), volume = volumes2(i), rate=rates(i), pan = pans2(i), lowPass = soundPlays(scratchPlays(i)).lowPass))
+
+        val rateStart2 = rs.getOrElse(1.7)
+        val rateChange2 = rc.getOrElse(0.05)
+        val rates2 = Melody.absolute(rateStart2, Seq.fill(5)(rateChange2))
+        val start3 = start2 + (soundPlays("tiles-rattle-2").duration(1.7))
+        val times2 = Melody.absolute(start3, indices.map(i => soundPlays(scratchPlays(i)).duration(rates(i)) * overlaps(i)))
+
+        val pans3 = pans2.map(_ * -1.0)
+        indices.foreach(i => playSound(scratchPlays(i), times2(i), volume = volumes2(i), rate=rates2(i), pan = pans3(i), highPass = soundPlays(scratchPlays(i)).highPass))
+    }
+
+    def theme6v5(start: Double = 0,
+                v0: Option[Double] = None, r0: Option[Double] = None, p0: Option[Double] = None,
+                v1: Option[(Double, Double)] = None, p1: Option[(Double, Double)] = None, 
+                v2: Option[Seq[Double]] = None, p2: Option[Seq[Double]] = None,
+                v3: Option[Seq[Double]] = None, p3: Option[Seq[Double]] = None,
+                rs: Option[Double] = None, rc: Option[Double] = None): Unit = {
+
+        val rate1 = r0.getOrElse(0.5)
+        val volume1 = v0.getOrElse(1.0)
+        val pans1 = p0.getOrElse(-0.5)
+        playSound("tiles-rattle-1", start, volume = volume1, rate = rate1, pan = pans1, lowPass = soundPlays("tiles-scratch-1").lowPass)
+        val start2 = start + (soundPlays("tiles-rattle-2").duration(1.0))
+
+        val indices = (0 until 5)
+        val scratchPlays = Seq(Seq.fill(2)("tiles-scratch-1"), Seq.fill(2)("tiles-scratch-2"), Seq.fill(1)("tiles-scratch-1")).flatten
+        val overlaps = Melody.absolute(0.33f, Seq.fill(5)((0.66f - 0.33f) / 5))
+        val rateStart = rs.getOrElse(1.7)
+        val rateChange = rc.getOrElse(0.05)
+        val rates = Melody.absolute(rateStart, Seq.fill(5)(rateChange))
+        val volumes2 = v2.getOrElse(Seq(0.6, 0.7, 0.8, 0.7, 0.6))
+        val pans2 = p2.getOrElse(Melody.absolute(-0.5f, Seq.fill(5)(1.0 / 5.0)))
+        val times = Melody.absolute(start2, indices.map(i => soundPlays(scratchPlays(i)).duration(rates(i)) * overlaps(i)))
+        indices.foreach(i => playSound(scratchPlays(i), times(i), volume = volumes2(i), rate=rates(i), pan = pans2(i), lowPass = soundPlays(scratchPlays(i)).lowPass))
+
+        val rateStart2 = rs.getOrElse(1.8)
+        val rateChange2 = rc.getOrElse(-0.03)
+        val rates2 = Melody.absolute(rateStart2, Seq.fill(5)(rateChange2))
+        val start3 = start2 + (soundPlays("tiles-rattle-2").duration(1.8))
+        val times2 = Melody.absolute(start3, indices.map(i => soundPlays(scratchPlays(i)).duration(rates(i)) * overlaps(i)))
+
+        val pans3 = pans2.map(_ * -1.0)
+        indices.foreach(i => playSound(scratchPlays(i), times2(i), volume = volumes2(i), rate=rates2(i), pan = pans3(i), highPass = soundPlays(scratchPlays(i)).highPass))
+
+    }
+
     def play1v1(): Unit = {
         client.resetClock
 
@@ -471,6 +600,16 @@ object  MusiqueConcrete3 {
         theme2v2(start = 5)
         theme2v3(start = 10)
         theme2v4(start = 15)
+    }
+
+    def play1v3(): Unit = {
+        client.resetClock
+
+        theme6v1(start = 0)
+        theme6v2(start = 5)
+        theme6v3(start = 10)
+        theme6v4(start = 15)
+        theme6v5(start = 20)
     }
 
     def init(): Unit = {
