@@ -577,6 +577,25 @@ object  MusiqueConcrete3 {
 
     }
 
+    def theme7v1(start: Double = 0, 
+                v2: Option[Double] = None, p2: Option[Double] = None, r2: Option[Double] = None, 
+                v4: Option[Double] = None, p4: Option[Double] = None, r4: Option[Double] = None): Unit = {
+                  
+        playSound("tiles-scratch-3", start, volume=v2.getOrElse(0.5), rate=r2.getOrElse(0.10), pan = p2.getOrElse(-0.5), lowPass = soundPlays("tiles-scratch-3").lowPass)
+        playSound("tiles-scratch-3", start + 3, volume=v4.getOrElse(0.5), rate=r4.getOrElse(0.12), pan = p4.getOrElse(0.5), lowPass = soundPlays("tiles-scratch-3").lowPass)
+
+        playSound("tiles-scratch-3", start + 6, volume=v2.getOrElse(0.5), rate=r2.getOrElse(0.2), pan = p2.getOrElse(0.8), highPass = soundPlays("tiles-scratch-3").highPass)
+        playSound("tiles-scratch-3", start + 8, volume=v4.getOrElse(0.5), rate=r4.getOrElse(0.25), pan = p4.getOrElse(-0.8), highPass = soundPlays("tiles-scratch-3").highPass)
+
+
+        playSound("tiles-scratch-3", start + 13, volume=v2.getOrElse(0.5), rate=r2.getOrElse(0.15), pan = p2.getOrElse(-0.3), lowPass = soundPlays("tiles-scratch-3").lowPass)
+        playSound("tiles-scratch-3", start + 16, volume=v4.getOrElse(0.5), rate=r4.getOrElse(0.18), pan = p4.getOrElse(0.3), lowPass = soundPlays("tiles-scratch-3").lowPass)
+
+
+        playSound("tiles-scratch-3", start + 18, volume=v2.getOrElse(0.5), rate=r2.getOrElse(0.29), pan = p2.getOrElse(0.4), highPass = soundPlays("tiles-scratch-3").highPass)
+        playSound("tiles-scratch-3", start + 20, volume=v4.getOrElse(0.5), rate=r4.getOrElse(0.35), pan = p4.getOrElse(-0.4), highPass = soundPlays("tiles-scratch-3").highPass)
+    }
+
     def play1v1(): Unit = {
         client.resetClock
 
@@ -610,6 +629,21 @@ object  MusiqueConcrete3 {
         theme6v3(start = 10)
         theme6v4(start = 15)
         theme6v5(start = 20)
+    }
+
+    def play1v4(): Unit = {
+        client.resetClock
+
+        theme7v1(start = 0)
+    }
+
+    def play1v5(): Unit = {
+        client.resetClock
+
+        theme1v4(start = 0)
+        theme1v3(start = 5)
+        theme1v2(start = 10)
+        theme1v1(start = 15)
     }
 
     def init(): Unit = {
