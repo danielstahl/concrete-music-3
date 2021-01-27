@@ -40,7 +40,7 @@ object  MusiqueConcrete3 {
     )
 
     def playSound(name: String, startTime: Double, volume: Double = 1.0, rate: Double = 1.0, pan: Double = 0.0, 
-                  lowPass: Option[Double] = None, highPass: Option[Double] = None): Unit = {
+                  lowPass: Option[Double] = None, highPass: Option[Double] = None, ringModulate: Option[Double] = None): Unit = {
         val soundPlay = soundPlays(name)
         
         var note = StereoSoundNote(bufNum = soundPlay.bufNum, volume = volume * MASTER_VOLUME)
@@ -48,9 +48,10 @@ object  MusiqueConcrete3 {
             .right(_.playRight(soundPlay.start, soundPlay.end, rate, staticControl(volume)))
             .mixAudio(soundPlay.amp(volume * MASTER_VOLUME))
 
+        note = ringModulate.map(freq => note.ring(staticControl(filterFreq(rate, freq)))).getOrElse(note)
         note = lowPass.map(freq => note.lowPass(staticControl(filterFreq(rate, freq)))).getOrElse(note)
         note = highPass.map(freq => note.highPass(staticControl(filterFreq(rate, freq)))).getOrElse(note)
-            
+        
         note.pan(staticControl(pan))
             .play(startTime = startTime)
     }
@@ -117,21 +118,6 @@ object  MusiqueConcrete3 {
         playSound("tiles-scratch-3", 6 + start)
         playSoundHighpass("tiles-scratch-3", 7 + start)
         playSoundLowpass("tiles-scratch-3", 8 + start)
-    }
-
-    def playClockSpring(start: Float = 0): Unit = {
-        client.resetClock
-        playSound("clock-spring-1", 0 + start)
-        playSoundHighpass("clock-spring-1", 3 + start)
-        playSoundLowpass("clock-spring-1", 6 + start)
-
-        playSound("clock-spring-2", 9 + start)
-        playSoundHighpass("clock-spring-2", 12 + start)
-        playSoundLowpass("clock-spring-2", 15 + start)
-
-        playSound("clock-spring-3", 18 + start)
-        playSoundHighpass("clock-spring-3", 21 + start)
-        playSoundLowpass("clock-spring-3", 24 + start)
     }
 
     def theme1v1(start: Double = 0, 
@@ -412,15 +398,6 @@ object  MusiqueConcrete3 {
                 v4: Option[Double] = None, p4: Option[Double] = None, r4: Option[Double] = None): Unit = {
         playSound("tiles-rattle-3", start + 0, volume=v3.getOrElse(2.0), pan = p3.getOrElse(0.3))
         playSound("tiles-scratch-3", start + 0, volume=v4.getOrElse(0.5), rate=r4.getOrElse(1.8), pan = p4.getOrElse(0.5), lowPass = soundPlays("tiles-scratch-3").lowPass)
-    }
-
-    def theme3(start: Double = 0): Unit = {
-        client.resetClock
-        playSoundHighpass("clock-spring-2", 0, pan = -0.5f)
-        playSoundLowpass("clock-spring-1", 0, pan = 0.5f)
-        // part of a development
-        playSoundHighpass("clock-spring-1", 0.6, pan = 0.2f, rate = 1.05)
-        
     }
 
     def theme4v1(start: Double = 0,

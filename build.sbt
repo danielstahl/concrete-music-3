@@ -15,8 +15,8 @@ libraryDependencies += "net.soundmining" %% "soundmining-tools" % "1.0-SNAPSHOT"
 libraryDependencies += "net.soundmining" %% "soundmining-modular" % "1.0-SNAPSHOT"
 
 initialCommands in console := """
-    import net.soundmining.MusiqueConcrete3
-    MusiqueConcrete3.init()
+    |import net.soundmining._
+    |MusiqueConcrete3.init()
 """.trim().stripMargin
 
 cleanupCommands in console += """
