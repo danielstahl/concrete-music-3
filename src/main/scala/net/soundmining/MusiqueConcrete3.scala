@@ -2,10 +2,13 @@ package net.soundmining
 
 import net.soundmining.synth._
 import SuperColliderClient._
-import net.soundmining.synth.SoundNote._
 import net.soundmining.modular.ModularSynth._
 import net.soundmining.modular.ModularInstrument.ControlInstrument
 import scala.annotation.switch
+import net.soundmining.synth.SoundNote._
+import net.soundmining.synth.SoundPlays._
+import net.soundmining.synth.SoundPlay
+
 
 /*
 For ideas. Hav 3-4 "theames" that have more and more complex variants by
@@ -14,55 +17,27 @@ compoments. play in order is one idea but not necessarily true for all.
 */
 object  MusiqueConcrete3 {
     implicit val client: SuperColliderClient = SuperColliderClient()
-    val SOUND_BASE_DIR = "/Users/danielstahl/Documents/Projects/musique-concrete-iii/sounds/"
+    //val SOUND_BASE_DIR = "/Users/danielstahl/Documents/Projects/musique-concrete-iii/sounds/"
+    val SOUND_BASE_DIR = "/Users/danielstahl/Documents/Music/sounds/"
     val SYNTH_DIR = "/Users/danielstahl/Documents/Projects/soundmining-modular/src/main/sc/synths"
-    val MASTER_VOLUME = 1.0
-
-    val defaultVolumeControl = amp => staticControl(amp)
-
-    case class SoundPlay(bufNum: Int, start: Double, end: Double, highPass: Option[Double] = None, lowPass: Option[Double] = None, amp: Double => ControlInstrument = defaultVolumeControl) {
-        def duration(rate: Double) = math.abs((end - start) / rate)
-    }
-
-    val soundPlays = Map(
+    
+    val sounds = Map(
         "tiles-rattle-1" -> SoundPlay(0, 0.35, 0.6, highPass = Some(5000), lowPass = Some(3500)),
         "tiles-rattle-2" -> SoundPlay(0, 0.65, 1.2, highPass = Some(5000), lowPass = Some(3500)),
         "tiles-rattle-3" -> SoundPlay(0, 1.25, 1.4, highPass = Some(5000), lowPass = Some(3500)),
         "tiles-scratch-1" -> SoundPlay(1, 0.471, 0.874, highPass = Some(5625), lowPass = Some(3375)),
         "tiles-scratch-2" -> SoundPlay(1, 1.382, 2.247, highPass = Some(5625), lowPass = Some(3375)),
-        "tiles-scratch-3" -> SoundPlay(1, 2.660, 3.638, highPass = Some(5625), lowPass = Some(3375)),
-        "clock-spring-1" -> SoundPlay(2, 2.613, 4.200, highPass = Some(1760), lowPass = Some(1625), 
-            amp = volume => relativeThreeBlockcontrol(0, 0.3, volume * 2, volume * 2, 0.2, 0, Right(Instrument.LINEAR))),
-        "clock-spring-2" -> SoundPlay(2, 0.068, 1.079, highPass = Some(1760), lowPass = Some(1625), 
-            amp = volume => relativeThreeBlockcontrol(0, 0.01, volume * 2, volume * 2, 0.3, 0, Right(Instrument.LINEAR))),
-        "clock-spring-3" -> SoundPlay(2, 1.077, 2.445, highPass = Some(1760), lowPass = Some(1625), 
-            amp = volume => relativeThreeBlockcontrol(0, 0.01, volume * 2, volume * 2, 0.15, 0, Right(Instrument.LINEAR)))            
+        "tiles-scratch-3" -> SoundPlay(1, 2.660, 3.638, highPass = Some(5625), lowPass = Some(3375))
     )
 
-    def playSound(name: String, startTime: Double, volume: Double = 1.0, rate: Double = 1.0, pan: Double = 0.0, 
-                  lowPass: Option[Double] = None, highPass: Option[Double] = None, ringModulate: Option[Double] = None): Unit = {
-        val soundPlay = soundPlays(name)
-        
-        var note = StereoSoundNote(bufNum = soundPlay.bufNum, volume = volume * MASTER_VOLUME)
-            .left(_.playLeft(soundPlay.start, soundPlay.end, rate, staticControl(volume)))
-            .right(_.playRight(soundPlay.start, soundPlay.end, rate, staticControl(volume)))
-            .mixAudio(soundPlay.amp(volume * MASTER_VOLUME))
+    val soundPlays = SoundPlays(sounds)
 
-        note = ringModulate.map(freq => note.ring(staticControl(filterFreq(rate, freq)))).getOrElse(note)
-        note = lowPass.map(freq => note.lowPass(staticControl(filterFreq(rate, freq)))).getOrElse(note)
-        note = highPass.map(freq => note.highPass(staticControl(filterFreq(rate, freq)))).getOrElse(note)
-        
-        note.pan(staticControl(pan))
-            .play(startTime = startTime)
-    }
+    import soundPlays._
 
     def play(f: () => Unit): Unit = {
         client.resetClock
         f()
     }
-
-    def filterFreq(rate: Double, freq: Double): Double = 
-        rate * freq
 
     def playSoundLowpass(name: String, startTime: Double, volume: Double = 1.0f, rate: Double = 1.0f, pan: Double = 0.0f): Unit = {
         val soundPlay = soundPlays(name)
@@ -628,6 +603,7 @@ object  MusiqueConcrete3 {
         client.start
         Instrument.setupNodes(client)
         client.send(loadDir(SYNTH_DIR))
+
         client.send(allocRead(0, s"${SOUND_BASE_DIR}tiles-rattle.flac"))
         client.send(allocRead(1, s"${SOUND_BASE_DIR}tiles-scratch-1.flac"))
         client.send(allocRead(2, s"${SOUND_BASE_DIR}clock-spring-1.flac"))
