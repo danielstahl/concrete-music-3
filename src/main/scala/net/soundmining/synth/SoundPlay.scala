@@ -13,9 +13,15 @@ case class SoundPlay(bufNum: Int, start: Double, end: Double,
 }
 
 final case class SoundPlays(soundPlays: Map[String, SoundPlay], 
-                            masterVolume: Double = 1.0) {
+                            masterVolume: Double = 1.0, numberOfOutputBuses: Int = 2) {
+
+  def getRealOutputBus(outputBus: Int): Int =
+    if(numberOfOutputBuses > 2) (outputBus % numberOfOutputBuses) + 2
+    else outputBus % numberOfOutputBuses
+
     def playSound(name: String, startTime: Double, volume: Double = 1.0, rate: Double = 1.0, pan: Double = 0.0, 
-                  lowPass: Option[Double] = None, highPass: Option[Double] = None, ringModulate: Option[Double] = None)(implicit client: SuperColliderClient): Unit = {
+                  lowPass: Option[Double] = None, highPass: Option[Double] = None, ringModulate: Option[Double] = None,
+                  outputBus: Int = 0)(implicit client: SuperColliderClient): Unit = {
         val soundPlay = soundPlays(name)
         
         var note = StereoSoundNote(bufNum = soundPlay.bufNum, volume = volume * masterVolume)
@@ -28,7 +34,7 @@ final case class SoundPlays(soundPlays: Map[String, SoundPlay],
         note = highPass.map(freq => note.highPass(staticControl(filterFreq(rate, freq)))).getOrElse(note)
         
         note.pan(staticControl(pan))
-            .play(startTime = startTime)
+            .play(startTime = startTime, outputBus = getRealOutputBus(outputBus))
     }
 
     def filterFreq(rate: Double, freq: Double): Double = 

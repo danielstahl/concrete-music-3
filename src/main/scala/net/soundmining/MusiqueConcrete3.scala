@@ -21,16 +21,21 @@ object  MusiqueConcrete3 {
     val SOUND_BASE_DIR = "/Users/danielstahl/Documents/Music/sounds/"
     val SYNTH_DIR = "/Users/danielstahl/Documents/Projects/soundmining-modular/src/main/sc/synths"
     
+    val TILES_SCRATCH_FREQS = Seq(3440.32, 5898.29, 1241.66, 1669.74)
+    val TILES_RATTLE_FREQS = Seq(3305.35, 5813.23, 6377.62)
+
+
+    // 3305.35, 
     val sounds = Map(
-        "tiles-rattle-1" -> SoundPlay(0, 0.35, 0.6, highPass = Some(5000), lowPass = Some(3500)),
-        "tiles-rattle-2" -> SoundPlay(0, 0.65, 1.2, highPass = Some(5000), lowPass = Some(3500)),
-        "tiles-rattle-3" -> SoundPlay(0, 1.25, 1.4, highPass = Some(5000), lowPass = Some(3500)),
-        "tiles-scratch-1" -> SoundPlay(1, 0.471, 0.874, highPass = Some(5625), lowPass = Some(3375)),
-        "tiles-scratch-2" -> SoundPlay(1, 1.382, 2.247, highPass = Some(5625), lowPass = Some(3375)),
-        "tiles-scratch-3" -> SoundPlay(1, 2.660, 3.638, highPass = Some(5625), lowPass = Some(3375))
+        "tiles-rattle-1" -> SoundPlay(0, 0.35, 0.6, highPass = Some(5000), lowPass = Some(3500), spectrumFreqs = TILES_RATTLE_FREQS),
+        "tiles-rattle-2" -> SoundPlay(0, 0.65, 1.2, highPass = Some(5000), lowPass = Some(3500), spectrumFreqs = TILES_RATTLE_FREQS),
+        "tiles-rattle-3" -> SoundPlay(0, 1.25, 1.4, highPass = Some(5000), lowPass = Some(3500), spectrumFreqs = TILES_RATTLE_FREQS),
+        "tiles-scratch-1" -> SoundPlay(1, 0.471, 0.874, highPass = Some(5625), lowPass = Some(3375), spectrumFreqs = TILES_SCRATCH_FREQS),
+        "tiles-scratch-2" -> SoundPlay(1, 1.382, 2.247, highPass = Some(5625), lowPass = Some(3375), spectrumFreqs = TILES_SCRATCH_FREQS),
+        "tiles-scratch-3" -> SoundPlay(1, 2.660, 3.638, highPass = Some(5625), lowPass = Some(3375), spectrumFreqs = TILES_SCRATCH_FREQS)
     )
 
-    val soundPlays = SoundPlays(sounds)
+    val soundPlays = SoundPlays(sounds, numberOfOutputBuses = 2)
 
     import soundPlays._
 

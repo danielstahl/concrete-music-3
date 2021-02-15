@@ -14,6 +14,8 @@ libraryDependencies += "net.soundmining" %% "soundmining-tools" % "1.0-SNAPSHOT"
 
 libraryDependencies += "net.soundmining" %% "soundmining-modular" % "1.0-SNAPSHOT"
 
+libraryDependencies += "org.quifft" % "quifft" % "0.1.1"
+
 initialCommands in console := """
     |import net.soundmining._
     |MusiqueConcrete3.init()
