@@ -96,8 +96,8 @@ object MusiqueConcrete4 {
          playSound("clock-spring-1", 25, volume = 2f, rate = rates(5), pan = 0f)    
     }
 
-    def theme5(): Unit = {
-        client.resetClock
+    def theme5(reset: Boolean = true, start: Double = 0): Unit = {
+        if(reset) client.resetClock
 
         val rates = Seq((1, 1), (1, 0))
             .map {
@@ -108,11 +108,14 @@ object MusiqueConcrete4 {
         val durations = rates.map(rate => soundPlays("clock-spring-1").duration(rate))
         println(s"duration $durations")
 
-        val times = Melody.absolute(0, Seq(
+        val times = Melody.absolute(start, Seq(
             durations(0) * 3, durations(0) * 2, durations(0) * 3, 
             durations(1) * 2, durations(1) * 1, durations(1) * 2,
             durations(0) * 3, durations(0) * 2, durations(0) * 3, 
-            durations(1) * 2, durations(1) * 1, durations(1) * 2))
+            durations(1) * 2, durations(1) * 1, durations(1) * 2,
+            durations(0) * 3, durations(0) * 2, durations(0) * 3))
+
+        println(s"times $times")
 
         val pans = Seq(
             0.6, -0.3, -0.7, 0.3, 0.8,
@@ -164,9 +167,65 @@ object MusiqueConcrete4 {
 
         playSound("clock-spring-1", times(11), volume = 1f, rate = rates(1), pan = pans(11))    
         playSound("clock-spring-1", times(11) + 0.05, volume = 2f, rate = rates(1), pan = pans(11) * -1, ringModulate = rings(11)) 
+
+        playSound("clock-spring-1", times(12), volume = 1f, rate = rates(0), pan = pans(12))    
+        playSound("clock-spring-1", times(12) + 0.05, volume = 2f, rate = rates(0), pan = pans(12) * -1, ringModulate = rings(12)) 
     }
 
+    def theme6(reset: Boolean = true, start: Double = 0): Unit = {
+        if(reset) client.resetClock
 
+        val rates = Seq((1, 2), (1, 3))
+            .map {
+                case (i, j) => CLOCK_SPRING_SPECTRUM_FREQS(i) / CLOCK_SPRING_SPECTRUM_FREQS(j)
+            }
+        println(s"rates $rates")
+        
+        val durations = rates.map(rate => soundPlays("clock-spring-1").duration(rate))
+        println(s"duration $durations")
+
+        val times = Melody.absolute(start, Seq(
+            durations(0) * 1, durations(0) * 2, durations(1) * 1, durations(0) * 2, durations(0) * 1, durations(1) * 1))
+
+        println(s"times $times")
+
+        val rings = Seq(4, 6, 7, 5, 6, 4, 6, 7, 5, 6, 4, 6, 7, 5, 6, 4, 6, 7, 5, 6)
+            .map(i => Some(CLOCK_SPRING_SPECTRUM_FREQS(i)))
+
+        val pans = Seq(
+            0.6, -0.3, -0.7, 0.3, 0.8,
+            0.6, -0.3, -0.7, 0.3, 0.8,
+            0.6, -0.3, -0.7, 0.3, 0.8,
+            0.6, -0.3, -0.7, 0.3, 0.8
+        )   
+
+        playSound("clock-spring-1", times(0), volume = 1f, rate = rates(0), pan = pans(0))   
+        playSound("clock-spring-1", times(0) + 0.05, volume = 2f, rate = rates(0), pan = pans(0) * -1, ringModulate = rings(0))
+
+        playSound("clock-spring-1", times(1), volume = 1f, rate = rates(1), pan = pans(1))    
+        playSound("clock-spring-1", times(1) + 0.05, volume = 2f, rate = rates(1), pan = pans(1) * -1, ringModulate = rings(1))
+
+        playSound("clock-spring-1", times(2), volume = 1f, rate = rates(0), pan = pans(2)) 
+        playSound("clock-spring-1", times(2) + 0.05, volume = 2f, rate = rates(0), pan = pans(2) * -1, ringModulate = rings(2)) 
+
+        playSound("clock-spring-1", times(3), volume = 1f, rate = rates(1), pan = pans(3))    
+        playSound("clock-spring-1", times(3) + 0.05, volume = 2f, rate = rates(1), pan = pans(3) * -1, ringModulate = rings(3))    
+        playSound("clock-spring-2", times(3), volume = 1f, rate = rates(1), pan = pans(3), highPass = soundPlays("clock-spring-2").highPass) 
+
+        playSound("clock-spring-1", times(4), volume = 1f, rate = rates(0), pan = pans(4))  
+        playSound("clock-spring-1", times(4) + 0.05, volume = 2f, rate = rates(0), pan = pans(4) * -1, ringModulate = rings(4))
+
+        playSound("clock-spring-1", times(5), volume = 1f, rate = rates(1), pan = pans(5))  
+        playSound("clock-spring-1", times(5) + 0.05, volume = 2f, rate = rates(1), pan = pans(5) * -1, ringModulate = rings(5))
+    }
+
+    def play1v1(s2: Option[Double] = None): Unit = {
+        client.resetClock
+
+        val start2 = s2.getOrElse(5.0)
+        theme5(reset = false, start = 0)
+        theme6(reset = false, start = start2)
+    }
 
 
 
