@@ -250,41 +250,4 @@ object MusiqueConcrete4 {
 
         theme7(reset = false, start = 22.88)
     }
-
-
-
-
-
-
-    val DEFAULT_AUDIO = "/Users/danielstahl/Documents/Music/Pieces/Sound Music/Sound Music 4/sounds/clock-spring-1.aiff"
-
-    // https://github.com/mileshenrichs/QuiFFT
-    def analyze(path: String = DEFAULT_AUDIO, millis: Long = 1508, min: Double = 20, max: Double = 20000) = {
-        val quiFFT = new QuiFFT(path)
-            .windowOverlap(0.9375)
-            .dBScale(false)
-
-        val fft = quiFFT.fullFFT()
-        println(fft)
-        
-        val fftFrames = fft.fftFrames
-        
-        val window = math.round(millis / fft.windowDurationMs)
-
-        val fftFrame = fftFrames.find(frame => frame.frameStartMs < millis && frame.frameEndMs > millis).get
-
-        println(s"start ${fftFrame.frameStartMs} end ${fftFrame.frameEndMs}")
-
-        val largest = fftFrame.bins
-            .filter(bin => bin.frequency > min && bin.frequency < max )
-            .sortBy(bin => bin.amplitude)(Ordering[Double].reverse)
-            .take(5)
-        largest.foreach {
-            large => print(s" ${math.round(large.frequency)} hz ${math.round(large.amplitude)} db")
-        }
-        println
-        
-        
-
-    }
 }
