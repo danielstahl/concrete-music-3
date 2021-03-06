@@ -26,7 +26,7 @@ object MusiqueConcrete4 {
             spectrumFreqs = CLOCK_SPRING_SPECTRUM_FREQS)
     )
 
-    val soundPlays = SoundPlays(sounds)
+    val soundPlays = SoundPlays(sounds, numberOfOutputBuses = 16)
 
     import soundPlays._
 
@@ -129,47 +129,47 @@ object MusiqueConcrete4 {
 
         // Seq(206.504, 160.774, 380.784, 448.902, 1051.13, 1267.64, 1520.84, 1630.4)
         
-        playSound("clock-spring-1", times(0), volume = 1f, rate = rates(0), pan = pans(0))
-        playSound("clock-spring-1", times(0) + 0.05, volume = 2f, rate = rates(0), pan = pans(0) * -1, ringModulate = rings(0))
-        playSound("clock-spring-2", times(0), volume = 1f, rate = rates(0), pan = pans(0), highPass = soundPlays("clock-spring-2").highPass)
+        playSound("clock-spring-1", times(0), volume = 1f, rate = rates(0), pan = pans(0), outputBus = 0)
+        playSound("clock-spring-1", times(0) + 0.05, volume = 2f, rate = rates(0), pan = pans(0) * -1, ringModulate = rings(0), outputBus = 2)
+        playSound("clock-spring-2", times(0), volume = 0.7f, rate = rates(0), pan = pans(0), highPass = soundPlays("clock-spring-2").highPass, outputBus = 4)
 
-        playSound("clock-spring-1", times(1), volume = 1f, rate = rates(1), pan = pans(1), highPass = rings(1))    
-        playSound("clock-spring-1", times(1) + 0.05, volume = 2f, rate = rates(1), pan = pans(1) * -1, ringModulate = rings(1)) 
+        playSound("clock-spring-1", times(1), volume = 1f, rate = rates(1), pan = pans(1), highPass = rings(1), outputBus = 0)    
+        playSound("clock-spring-1", times(1) + 0.05, volume = 2f, rate = rates(1), pan = pans(1) * -1, ringModulate = rings(1), outputBus = 2) 
 
-        playSound("clock-spring-1", times(2), volume = 1f, rate = rates(0), pan = pans(2)) 
-        playSound("clock-spring-1", times(2) + 0.05, volume = 2f, rate = rates(0), pan = pans(2) * -1, ringModulate = rings(2)) 
+        playSound("clock-spring-1", times(2), volume = 1f, rate = rates(0), pan = pans(2), outputBus = 0) 
+        playSound("clock-spring-1", times(2) + 0.05, volume = 2f, rate = rates(0), pan = pans(2) * -1, ringModulate = rings(2), outputBus = 2) 
 
-        playSound("clock-spring-1", times(3), volume = 1f, rate = rates(1), pan = pans(3))    
-        playSound("clock-spring-1", times(3) + 0.05, volume = 2f, rate = rates(1), pan = pans(3) * -1, ringModulate = rings(3))    
+        playSound("clock-spring-1", times(3), volume = 1f, rate = rates(1), pan = pans(3), outputBus = 0)    
+        playSound("clock-spring-1", times(3) + 0.05, volume = 2f, rate = rates(1), pan = pans(3) * -1, ringModulate = rings(3), outputBus = 2)    
 
-        playSound("clock-spring-1", times(4), volume = 1f, rate = rates(0), pan = pans(4))  
-        playSound("clock-spring-1", times(4) + 0.05, volume = 2f, rate = rates(0), pan = pans(4) * -1, ringModulate = rings(4))
+        playSound("clock-spring-1", times(4), volume = 1f, rate = rates(0), pan = pans(4), outputBus = 0)  
+        playSound("clock-spring-1", times(4) + 0.05, volume = 2f, rate = rates(0), pan = pans(4) * -1, ringModulate = rings(4), outputBus = 2)
 
-        playSound("clock-spring-1", times(5), volume = 1f, rate = rates(1), pan = pans(5))
-        playSound("clock-spring-1", times(5) + 0.05, volume = 2f, rate = rates(1), pan = pans(5) * -1, ringModulate = rings(5))    
-        playSound("clock-spring-2", times(5), volume = 1f, rate = rates(1), pan = pans(5), highPass = soundPlays("clock-spring-2").highPass)
+        playSound("clock-spring-1", times(5), volume = 1f, rate = rates(1), pan = pans(5), outputBus = 0)
+        playSound("clock-spring-1", times(5) + 0.05, volume = 2f, rate = rates(1), pan = pans(5) * -1, ringModulate = rings(5), outputBus = 2)    
+        playSound("clock-spring-2", times(5), volume = 0.7f, rate = rates(1), pan = pans(5), highPass = soundPlays("clock-spring-2").highPass, outputBus = 4)
 
-        playSound("clock-spring-1", times(6), volume = 1f, rate = rates(0), pan = pans(6))
-        playSound("clock-spring-1", times(6) + 0.05, volume = 2f, rate = rates(0), pan = pans(6) * -1, ringModulate = rings(6))
+        playSound("clock-spring-1", times(6), volume = 1f, rate = rates(0), pan = pans(6), outputBus = 0)
+        playSound("clock-spring-1", times(6) + 0.05, volume = 2f, rate = rates(0), pan = pans(6) * -1, ringModulate = rings(6), outputBus = 2)
 
-        playSound("clock-spring-1", times(7), volume = 1f, rate = rates(1), pan = pans(7))
-        playSound("clock-spring-1", times(7) + 0.05, volume = 2f, rate = rates(1), pan = pans(7) * -1, ringModulate = rings(7))    
+        playSound("clock-spring-1", times(7), volume = 1f, rate = rates(1), pan = pans(7), outputBus = 0)
+        playSound("clock-spring-1", times(7) + 0.05, volume = 2f, rate = rates(1), pan = pans(7) * -1, ringModulate = rings(7), outputBus = 2)    
 
-        playSound("clock-spring-1", times(8), volume = 1f, rate = rates(0), pan = pans(8))
-        playSound("clock-spring-1", times(8) + 0.05, volume = 2f, rate = rates(0), pan = pans(8) * -1, ringModulate = rings(8))
+        playSound("clock-spring-1", times(8), volume = 1f, rate = rates(0), pan = pans(8), outputBus = 0)
+        playSound("clock-spring-1", times(8) + 0.05, volume = 2f, rate = rates(0), pan = pans(8) * -1, ringModulate = rings(8), outputBus = 2)
 
-        playSound("clock-spring-1", times(9), volume = 1f, rate = rates(1), pan = pans(9))
-        playSound("clock-spring-1", times(9) + 0.05, volume = 2f, rate = rates(1), pan = pans(9) * -1, ringModulate = rings(9))    
+        playSound("clock-spring-1", times(9), volume = 1f, rate = rates(1), pan = pans(9), outputBus = 0)
+        playSound("clock-spring-1", times(9) + 0.05, volume = 2f, rate = rates(1), pan = pans(9) * -1, ringModulate = rings(9), outputBus = 2)    
 
-        playSound("clock-spring-1", times(10), volume = 1f, rate = rates(0), pan = pans(10)) 
-        playSound("clock-spring-1", times(10) + 0.05, volume = 2f, rate = rates(0), pan = pans(10) * -1, ringModulate = rings(10)) 
-        playSound("clock-spring-2", times(10), volume = 1f, rate = rates(0), pan = pans(10), highPass = soundPlays("clock-spring-2").highPass) 
+        playSound("clock-spring-1", times(10), volume = 1f, rate = rates(0), pan = pans(10), outputBus = 0) 
+        playSound("clock-spring-1", times(10) + 0.05, volume = 2f, rate = rates(0), pan = pans(10) * -1, ringModulate = rings(10), outputBus = 2) 
+        playSound("clock-spring-2", times(10), volume = 0.7f, rate = rates(0), pan = pans(10), highPass = soundPlays("clock-spring-2").highPass, outputBus = 4) 
 
-        playSound("clock-spring-1", times(11), volume = 1f, rate = rates(1), pan = pans(11))    
-        playSound("clock-spring-1", times(11) + 0.05, volume = 2f, rate = rates(1), pan = pans(11) * -1, ringModulate = rings(11)) 
+        playSound("clock-spring-1", times(11), volume = 1f, rate = rates(1), pan = pans(11), outputBus = 0)    
+        playSound("clock-spring-1", times(11) + 0.05, volume = 2f, rate = rates(1), pan = pans(11) * -1, ringModulate = rings(11), outputBus = 2) 
 
-        playSound("clock-spring-1", times(12), volume = 1f, rate = rates(0), pan = pans(12))    
-        playSound("clock-spring-1", times(12) + 0.05, volume = 2f, rate = rates(0), pan = pans(12) * -1, ringModulate = rings(12)) 
+        playSound("clock-spring-1", times(12), volume = 1f, rate = rates(0), pan = pans(12), outputBus = 0)    
+        playSound("clock-spring-1", times(12) + 0.05, volume = 2f, rate = rates(0), pan = pans(12) * -1, ringModulate = rings(12), outputBus = 2) 
     }
 
     def theme6(reset: Boolean = true, start: Double = 0): Unit = {
@@ -199,24 +199,24 @@ object MusiqueConcrete4 {
             0.6, -0.3, -0.7, 0.3, 0.8
         )   
 
-        playSound("clock-spring-1", times(0), volume = 1f, rate = rates(0), pan = pans(0))   
-        playSound("clock-spring-1", times(0) + 0.05, volume = 2f, rate = rates(0), pan = pans(0) * -1, ringModulate = rings(0))
+        playSound("clock-spring-1", times(0), volume = 1f, rate = rates(0), pan = pans(0), outputBus = 0)   
+        playSound("clock-spring-1", times(0) + 0.05, volume = 2f, rate = rates(0), pan = pans(0) * -1, ringModulate = rings(0), outputBus = 2)
 
-        playSound("clock-spring-1", times(1), volume = 1f, rate = rates(1), pan = pans(1))    
-        playSound("clock-spring-1", times(1) + 0.05, volume = 2f, rate = rates(1), pan = pans(1) * -1, ringModulate = rings(1))
+        playSound("clock-spring-1", times(1), volume = 1f, rate = rates(1), pan = pans(1), outputBus = 0)    
+        playSound("clock-spring-1", times(1) + 0.05, volume = 2f, rate = rates(1), pan = pans(1) * -1, ringModulate = rings(1), outputBus = 2)
 
-        playSound("clock-spring-1", times(2), volume = 1f, rate = rates(0), pan = pans(2)) 
-        playSound("clock-spring-1", times(2) + 0.05, volume = 2f, rate = rates(0), pan = pans(2) * -1, ringModulate = rings(2)) 
+        playSound("clock-spring-1", times(2), volume = 1f, rate = rates(0), pan = pans(2), outputBus = 0) 
+        playSound("clock-spring-1", times(2) + 0.05, volume = 2f, rate = rates(0), pan = pans(2) * -1, ringModulate = rings(2), outputBus = 2) 
 
-        playSound("clock-spring-1", times(3), volume = 1f, rate = rates(1), pan = pans(3))    
-        playSound("clock-spring-1", times(3) + 0.05, volume = 2f, rate = rates(1), pan = pans(3) * -1, ringModulate = rings(3))    
-        playSound("clock-spring-2", times(3), volume = 1f, rate = rates(1), pan = pans(3), highPass = soundPlays("clock-spring-2").highPass) 
+        playSound("clock-spring-1", times(3), volume = 1f, rate = rates(1), pan = pans(3), outputBus = 0)    
+        playSound("clock-spring-1", times(3) + 0.05, volume = 2f, rate = rates(1), pan = pans(3) * -1, ringModulate = rings(3), outputBus = 2)    
+        playSound("clock-spring-2", times(3), volume = 0.7f, rate = rates(1), pan = pans(3), highPass = soundPlays("clock-spring-2").highPass, outputBus = 4) 
 
-        playSound("clock-spring-1", times(4), volume = 1f, rate = rates(0), pan = pans(4))  
-        playSound("clock-spring-1", times(4) + 0.05, volume = 2f, rate = rates(0), pan = pans(4) * -1, ringModulate = rings(4))
+        playSound("clock-spring-1", times(4), volume = 1f, rate = rates(0), pan = pans(4), outputBus = 0)  
+        playSound("clock-spring-1", times(4) + 0.05, volume = 2f, rate = rates(0), pan = pans(4) * -1, ringModulate = rings(4), outputBus = 2)
 
-        playSound("clock-spring-1", times(5), volume = 1f, rate = rates(1), pan = pans(5))  
-        playSound("clock-spring-1", times(5) + 0.05, volume = 2f, rate = rates(1), pan = pans(5) * -1, ringModulate = rings(5))
+        playSound("clock-spring-1", times(5), volume = 1f, rate = rates(1), pan = pans(5), outputBus = 0)  
+        playSound("clock-spring-1", times(5) + 0.05, volume = 2f, rate = rates(1), pan = pans(5) * -1, ringModulate = rings(5), outputBus = 2)
     }
 
     def theme7(reset: Boolean = true, start: Double = 0): Unit = {
@@ -235,11 +235,11 @@ object MusiqueConcrete4 {
             durations(0) * 1, durations(1) * 1))
         println(s"times $times")
 
-        playSound("clock-spring-1", times(0), volume = 1f, rate = rates(0), pan = 0.5f)    
-        playSound("clock-spring-1", times(0) + 0.05, volume = 2f, rate = rates(0), pan = 0.5 * -1, ringModulate = Some(CLOCK_SPRING_SPECTRUM_FREQS(4)))
+        playSound("clock-spring-1", times(0), volume = 1f, rate = rates(0), pan = 0.5f, outputBus = 6)    
+        playSound("clock-spring-1", times(0) + 0.05, volume = 2f, rate = rates(0), pan = 0.5 * -1, ringModulate = Some(CLOCK_SPRING_SPECTRUM_FREQS(4)), outputBus = 8)
 
-        playSound("clock-spring-1", times(1), volume = 1f, rate = rates(1), pan = 0.3f)    
-        playSound("clock-spring-1", times(1) + 0.05, volume = 2f, rate = rates(1), pan = 0.3 * -1, ringModulate = Some(CLOCK_SPRING_SPECTRUM_FREQS(6)))
+        playSound("clock-spring-1", times(1), volume = 1f, rate = rates(1), pan = 0.3f, outputBus = 6)    
+        playSound("clock-spring-1", times(1) + 0.05, volume = 2f, rate = rates(1), pan = 0.3 * -1, ringModulate = Some(CLOCK_SPRING_SPECTRUM_FREQS(6)), outputBus = 8)
     }
 
     def play1v1(s2: Option[Double] = None): Unit = {
