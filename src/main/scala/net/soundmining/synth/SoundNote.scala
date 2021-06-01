@@ -44,6 +44,14 @@ abstract class SoundNote(bufNum: Integer = 0, volume: Double = 1.0) {
         self()
     }
 
+    def bandPass(filterFreq: ControlInstrument, rqBus: ControlInstrument): SelfType = {
+        audio = audio.map {
+            case Audio(audioInstrument, dur) =>
+                Audio(bandPassFilter(audioInstrument, filterFreq, rqBus).addAction(TAIL_ACTION), dur)
+        }
+        self()
+    }
+
     def ring(modularFreq: ControlInstrument): SelfType = {
         audio = audio.map {
             case Audio(audioInstrument, dur) => 
@@ -56,6 +64,16 @@ abstract class SoundNote(bufNum: Integer = 0, volume: Double = 1.0) {
         audio = audio.map {
             case Audio(audioInstrument, dur) =>
                 Audio(panning(audioInstrument, panPosition).addAction(TAIL_ACTION).withNrOfChannels(2), dur)
+        }
+        self()
+    }
+
+    def sub(subFreq: Double, attackTime: Double = 0.01, releaseTime: Double = 0.01): SelfType = {
+        audio = audio.map {
+            case Audio(audioInstrument, dur) =>
+                Audio(
+                    audio = sineOsc(soundAmplitudeControl(audioInstrument, attackTime, attackTime).addAction(TAIL_ACTION), staticControl(subFreq)).addAction(TAIL_ACTION),
+                    dur = dur)
         }
         self()
     }

@@ -16,11 +16,11 @@ libraryDependencies += "net.soundmining" %% "soundmining-modular" % "1.0-SNAPSHO
 
 libraryDependencies += "org.quifft" % "quifft" % "0.1.1"
 
-initialCommands in console := """
+console / initialCommands := """
     |import net.soundmining._
-    |MusiqueConcrete3.init()
+    |ConcreteMusic5.init()
 """.trim().stripMargin
 
-cleanupCommands in console += """
-    MusiqueConcrete3.stop()
+console / cleanupCommands += """
+    ConcreteMusic5.stop()
 """

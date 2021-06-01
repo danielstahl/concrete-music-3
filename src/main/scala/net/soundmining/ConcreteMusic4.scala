@@ -1,16 +1,12 @@
 package net.soundmining
 
-import MusiqueConcrete3.client
+import ConcreteMusic3.client
 import net.soundmining.synth._
 import net.soundmining.modular.ModularSynth._
-import net.soundmining.synth.SoundNote._
-import net.soundmining.synth.SoundPlays._
 import net.soundmining.synth.SoundPlay
-import org.quifft.QuiFFT;
-import java.util.stream.IntStream
 
 
-object MusiqueConcrete4 {
+object ConcreteMusic4 {
 
     val CLOCK_SPRING_SPECTRUM_FREQS = Seq(206.504, 160.774, 380.784, 448.902, 1051.13, 1267.64, 1520.84, 1630.4)
 

@@ -3,10 +3,8 @@ package net.soundmining
 import net.soundmining.synth._
 import SuperColliderClient._
 import net.soundmining.modular.ModularSynth._
-import net.soundmining.modular.ModularInstrument.ControlInstrument
 import scala.annotation.switch
-import net.soundmining.synth.SoundNote._
-import net.soundmining.synth.SoundPlays._
+import net.soundmining.synth._
 import net.soundmining.synth.SoundPlay
 
 
@@ -15,17 +13,17 @@ For ideas. Hav 3-4 "theames" that have more and more complex variants by
 adding componentns. We then play the themes by removing more and less of the
 compoments. play in order is one idea but not necessarily true for all. 
 */
-object  MusiqueConcrete3 {
+object  ConcreteMusic3 {
     implicit val client: SuperColliderClient = SuperColliderClient()
     //val SOUND_BASE_DIR = "/Users/danielstahl/Documents/Projects/musique-concrete-iii/sounds/"
     val SOUND_BASE_DIR = "/Users/danielstahl/Documents/Music/sounds/"
     val SYNTH_DIR = "/Users/danielstahl/Documents/Projects/soundmining-modular/src/main/sc/synths"
-    
+
     val TILES_SCRATCH_FREQS = Seq(3440.32, 5898.29, 1241.66, 1669.74)
     val TILES_RATTLE_FREQS = Seq(3305.35, 5813.23, 6377.62)
 
 
-    // 3305.35, 
+    // 3305.35,
     val sounds = Map(
         "tiles-rattle-1" -> SoundPlay(0, 0.35, 0.6, highPass = Some(5000), lowPass = Some(3500), spectrumFreqs = TILES_RATTLE_FREQS),
         "tiles-rattle-2" -> SoundPlay(0, 0.65, 1.2, highPass = Some(5000), lowPass = Some(3500), spectrumFreqs = TILES_RATTLE_FREQS),
@@ -60,7 +58,7 @@ object  MusiqueConcrete3 {
     def playSoundHighpass(name: String, startTime: Double, volume: Double = 1.0f, rate: Double = 1.0f, pan: Double = 0.0f): Unit = {
         val soundPlay = soundPlays(name)
         val highPassFreq = filterFreq(rate, soundPlay.highPass.get)
-        
+
         StereoSoundNote(bufNum = soundPlay.bufNum, volume = volume)
             .left(_.playLeft(soundPlay.start, soundPlay.end, rate, staticControl(volume)))
             .right(_.playRight(soundPlay.start, soundPlay.end, rate, staticControl(volume)))
@@ -75,7 +73,7 @@ object  MusiqueConcrete3 {
         playSound("tiles-rattle-1", 0 + start)
         playSoundLowpass("tiles-rattle-1", 1 + start)
         playSoundHighpass("tiles-rattle-1", 2 + start)
-    
+
         playSound("tiles-rattle-2", 3 + start)
         playSoundLowpass("tiles-rattle-2", 4 + start)
         playSoundHighpass("tiles-rattle-2", 5 + start)
@@ -100,10 +98,10 @@ object  MusiqueConcrete3 {
         playSoundLowpass("tiles-scratch-3", 8 + start)
     }
 
-    def theme1v1(start: Double = 0, 
-                v1: Option[Double] = None, p1: Option[Double] = None, 
+    def theme1v1(start: Double = 0,
+                v1: Option[Double] = None, p1: Option[Double] = None,
                 v2: Option[Double] = None, p2: Option[Double] = None): Unit = {
-            
+
         val volume1 = v1.getOrElse(1.0)
         val pans1 = p1.getOrElse(-0.5)
         playSound("tiles-scratch-1", start, volume = volume1, pan = pans1, highPass = soundPlays("tiles-scratch-1").highPass, outputBus = 0)
@@ -120,7 +118,7 @@ object  MusiqueConcrete3 {
     }
 
     def theme1v2(start: Double = 0,
-                v1: Option[(Double, Double)] = None, p1: Option[(Double, Double)] = None, 
+                v1: Option[(Double, Double)] = None, p1: Option[(Double, Double)] = None,
                 v2: Option[(Double, Double)] = None, p2: Option[(Double, Double)] = None): Unit = {
 
         val (volumeRattle1, volumeScratch1) = v1.getOrElse(1.0, 1.0)
@@ -225,8 +223,8 @@ object  MusiqueConcrete3 {
         val rattleSounds = Seq("tiles-rattle-1", "tiles-rattle-2")
         val rattlesVolume = v3.getOrElse(Seq(1.0, 1.0))
         val rattlesPans = p3.getOrElse(pans2.map(_ * -1))
-        (0 until 2).foreach(i => playSound(rattleSounds(i), times(rattles(i)), volume = rattlesVolume(i), rate=rates(rattles(i)), pan=rattlesPans(i), highPass = soundPlays(rattleSounds(i)).highPass, outputBus = 4))    
-        
+        (0 until 2).foreach(i => playSound(rattleSounds(i), times(rattles(i)), volume = rattlesVolume(i), rate=rates(rattles(i)), pan=rattlesPans(i), highPass = soundPlays(rattleSounds(i)).highPass, outputBus = 4))
+
         val highScratch = 3
         val highScratchSounds = "tiles-scratch-2"
         val highScratchVolume = v4.getOrElse(0.7)
@@ -271,8 +269,8 @@ object  MusiqueConcrete3 {
         val rattleSounds = Seq("tiles-rattle-1", "tiles-rattle-2")
         val rattlesVolume = v3.getOrElse(Seq(1.0, 1.0))
         val rattlesPans = p3.getOrElse(pans2.map(_ * -1))
-        (0 until 2).foreach(i => playSound(rattleSounds(i), times(rattles(i)), volume = rattlesVolume(i), rate=rates(rattles(i)), pan=rattlesPans(i), highPass = soundPlays(rattleSounds(i)).highPass, outputBus = 4))  
-        
+        (0 until 2).foreach(i => playSound(rattleSounds(i), times(rattles(i)), volume = rattlesVolume(i), rate=rates(rattles(i)), pan=rattlesPans(i), highPass = soundPlays(rattleSounds(i)).highPass, outputBus = 4))
+
         val highScratch = Seq(0, 3)
         val highScratchSounds = Seq("tiles-scratch-2", "tiles-scratch-1")
         val highScratchVolumes = v4.getOrElse(Seq(0.7, 0.7))
@@ -321,12 +319,12 @@ object  MusiqueConcrete3 {
         val volumes2 = v2.getOrElse(Seq(1.0, 0.7, 0.8, 0.7, 0.6))
         val pans2 = p2.getOrElse(Melody.absolute(-0.2f, Seq.fill(5)((0.2f / 5) * -1)))
         val times = Melody.absolute(start2, indices.map(i => soundPlays(scratchPlays(i)).duration(rates(i)) * overlaps(i)))
-        
+
         val rattles = Seq(1, 4)
         val rattleSounds = Seq("tiles-rattle-1", "tiles-rattle-2")
         val rattlesVolume = v3.getOrElse(Seq(1.0, 1.0))
         val rattlesPans = p3.getOrElse(pans2.map(_ * -1))
-        
+
         val highScratch = Seq(0, 3)
         val highScratchSounds = Seq("tiles-scratch-2", "tiles-scratch-1")
         val highScratchVolumes = v4.getOrElse(Seq(0.7, 0.7))
@@ -352,37 +350,37 @@ object  MusiqueConcrete3 {
         playSound(lowRattleSounds, times(lowRattles), volume=lowRattleVolume, rate=rates(lowRattles) * 0.1, pan=lowRattlePan, lowPass = soundPlays(lowScratchSounds).lowPass, outputBus = 12)
     }
 
-    def theme2v1(start: Double = 0, 
-                v1: Option[Double] = None, p1: Option[Double] = None, 
+    def theme2v1(start: Double = 0,
+                v1: Option[Double] = None, p1: Option[Double] = None,
                 v2: Option[Double] = None, p2: Option[Double] = None): Unit = {
-        val dur = MusiqueConcrete3.soundPlays("tiles-scratch-3").duration(1.0)
+        val dur = ConcreteMusic3.soundPlays("tiles-scratch-3").duration(1.0)
         playSound("tiles-rattle-3", start, volume=v1.getOrElse(2.0), pan = p1.getOrElse(0.5), outputBus = 0)
         playSound("tiles-scratch-3", start + (dur / 2), volume=v2.getOrElse(0.5), pan = p2.getOrElse(-0.5), lowPass = soundPlays("tiles-scratch-3").lowPass, outputBus = 2)
     }
 
-    def theme2v2(start: Double = 0, 
-                v1: Option[Double] = None, p1: Option[Double] = None, 
-                v2: Option[Double] = None, p2: Option[Double] = None, 
+    def theme2v2(start: Double = 0,
+                v1: Option[Double] = None, p1: Option[Double] = None,
+                v2: Option[Double] = None, p2: Option[Double] = None,
                 v3: Option[Double] = None, p3: Option[Double] = None): Unit = {
-        val dur = MusiqueConcrete3.soundPlays("tiles-scratch-3").duration(1.0)
+        val dur = ConcreteMusic3.soundPlays("tiles-scratch-3").duration(1.0)
         playSound("tiles-rattle-3", start, volume=v1.getOrElse(2.0), pan = p1.getOrElse(0.5), outputBus = 0)
         playSound("tiles-scratch-3", start + (dur / 2), volume=v2.getOrElse(0.5), pan = p2.getOrElse(-0.5), lowPass = soundPlays("tiles-scratch-3").lowPass, outputBus = 2)
         playSound("tiles-rattle-3", start + dur, volume=v3.getOrElse(2.0), pan = p3.getOrElse(0.3), outputBus = 4)
     }
 
-    def theme2v3(start: Double = 0, 
+    def theme2v3(start: Double = 0,
                 v1: Option[Double] = None, p1: Option[Double] = None,
-                v2: Option[Double] = None, p2: Option[Double] = None, 
+                v2: Option[Double] = None, p2: Option[Double] = None,
                 v3: Option[Double] = None, p3: Option[Double] = None,
                 v4: Option[Double] = None, p4: Option[Double] = None, r4: Option[Double] = None): Unit = {
-        val dur = MusiqueConcrete3.soundPlays("tiles-scratch-3").duration(1.0)            
+        val dur = ConcreteMusic3.soundPlays("tiles-scratch-3").duration(1.0)
         playSound("tiles-rattle-3", start, volume=v1.getOrElse(2.0), pan = p1.getOrElse(0.5), outputBus = 0)
         playSound("tiles-scratch-3", start + (dur / 2), volume=v2.getOrElse(0.5), pan = p2.getOrElse(-0.5), lowPass = soundPlays("tiles-scratch-3").lowPass, outputBus = 2)
         playSound("tiles-rattle-3", start + dur, volume=v3.getOrElse(2.0), pan = p3.getOrElse(0.3), outputBus = 4)
         playSound("tiles-scratch-3", start + dur, volume=v4.getOrElse(0.5), rate=r4.getOrElse(1.8), pan = p4.getOrElse(0.5), lowPass = soundPlays("tiles-scratch-3").lowPass, outputBus = 6)
     }
 
-    def theme2v4(start: Double = 0, 
+    def theme2v4(start: Double = 0,
                 v3: Option[Double] = None, p3: Option[Double] = None,
                 v4: Option[Double] = None, p4: Option[Double] = None, r4: Option[Double] = None): Unit = {
         playSound("tiles-rattle-3", start + 0, volume=v3.getOrElse(2.0), pan = p3.getOrElse(0.3), outputBus = 0)
@@ -395,7 +393,7 @@ object  MusiqueConcrete3 {
                 v3: Option[Seq[Double]] = None, p3: Option[Seq[Double]] = None,
                 reset: Boolean = false): Unit = {
 
-        if(reset) client.resetClock            
+        if(reset) client.resetClock
         val start2 = start
 
         val indices = (0 until 5)
@@ -408,10 +406,10 @@ object  MusiqueConcrete3 {
         indices.foreach(i => playSound(scratchPlays(i), times(i), volume = volumes2(i), rate=rates(i), pan = pans2(i), lowPass = soundPlays(scratchPlays(i)).lowPass, outputBus = 6))
     }
 
-    def theme5v1(start: Double = 0, 
-                v2: Option[Double] = None, p2: Option[Double] = None, r2: Option[Double] = None, 
+    def theme5v1(start: Double = 0,
+                v2: Option[Double] = None, p2: Option[Double] = None, r2: Option[Double] = None,
                 v4: Option[Double] = None, p4: Option[Double] = None, r4: Option[Double] = None): Unit = {
-        val dur = MusiqueConcrete3.soundPlays("tiles-scratch-3").duration(0.05) / 5        
+        val dur = ConcreteMusic3.soundPlays("tiles-scratch-3").duration(0.05) / 5
         playSound("tiles-scratch-3", start, volume=v2.getOrElse(0.5), rate=r2.getOrElse(0.05), pan = p2.getOrElse(-0.5), highPass = soundPlays("tiles-scratch-3").highPass, outputBus = 8)
         playSound("tiles-scratch-3", start + dur, volume=v4.getOrElse(0.5), rate=r4.getOrElse(0.06), pan = p4.getOrElse(0.5), highPass = soundPlays("tiles-scratch-3").highPass, outputBus = 10)
     }
@@ -512,7 +510,7 @@ object  MusiqueConcrete3 {
 
     def theme6v5(start: Double = 0,
                 v0: Option[Double] = None, r0: Option[Double] = None, p0: Option[Double] = None,
-                v1: Option[(Double, Double)] = None, p1: Option[(Double, Double)] = None, 
+                v1: Option[(Double, Double)] = None, p1: Option[(Double, Double)] = None,
                 v2: Option[Seq[Double]] = None, p2: Option[Seq[Double]] = None,
                 v3: Option[Seq[Double]] = None, p3: Option[Seq[Double]] = None,
                 rs: Option[Double] = None, rc: Option[Double] = None): Unit = {
@@ -545,11 +543,11 @@ object  MusiqueConcrete3 {
 
     }
 
-    def theme7v1(start: Double = 0, 
-                v2: Option[Double] = None, p2: Option[Double] = None, r2: Option[Double] = None, 
+    def theme7v1(start: Double = 0,
+                v2: Option[Double] = None, p2: Option[Double] = None, r2: Option[Double] = None,
                 v4: Option[Double] = None, p4: Option[Double] = None, r4: Option[Double] = None): Unit = {
-                  
-        val timeOne = MusiqueConcrete3.soundPlays("tiles-scratch-3").duration(1.0)
+
+        val timeOne = ConcreteMusic3.soundPlays("tiles-scratch-3").duration(1.0)
         val timeTwo = timeOne * 2
         val timeThree = timeOne * 3
         val timeFive = timeOne * 5
@@ -574,7 +572,7 @@ object  MusiqueConcrete3 {
         val longDur = soundPlays("tiles-rattle-2").duration(1) * 13
 
         val times = Melody.absolute(0, Seq(shortDur, shortDur, longDur, shortDur, shortDur, longDur, shortDur))
-        
+
         client.resetClock
 
         theme4v1(start = longDur)
@@ -591,8 +589,8 @@ object  MusiqueConcrete3 {
     def play1v2(): Unit = {
         client.resetClock
 
-        val dur = MusiqueConcrete3.soundPlays("tiles-scratch-3").duration(1.0) * 5
-        val shortDur = MusiqueConcrete3.soundPlays("tiles-scratch-3").duration(1.0) * 3
+        val dur = ConcreteMusic3.soundPlays("tiles-scratch-3").duration(1.0) * 5
+        val shortDur = ConcreteMusic3.soundPlays("tiles-scratch-3").duration(1.0) * 3
 
         val times = Melody.absolute(0, Seq(dur, dur, dur, dur))
 
