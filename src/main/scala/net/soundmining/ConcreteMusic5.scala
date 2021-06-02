@@ -59,6 +59,13 @@ object ConcreteMusic5 {
     playSound2("knife-3", 17, volume = 1.0, rate = 1.0, pan = (0.1, -0.3))
   }
 
+  /*
+  https://depts.washington.edu/dxscdoc/Help/Classes/WaveLoss.html
+  Maybe we could use WaveLoss to add some distortion to the sounds. It
+  will drop fractions of the sound and replace it with silence.
+  * */
+
+
   def testRelative(start: Double = 0): Unit = {
     client.resetClock
 
@@ -82,6 +89,7 @@ object ConcreteMusic5 {
       sounds("water-1").absoluteTime(2.563, 1.01)))
 
     playSound2("knife-4", times.head + 1.951, volume = 1.5, pan = (0.1, -0.4), highPass = Some(5000))
+    playSound2("knife-4", times.head + 1.951, volume = 3, pan = (0.3, -0.6), bandPass = Some(200, 0.05))
 
     playSound2("water-3", times.head, volume = 1.0, rate = 1.0, pan = (-0.5, 0.2), highPass = Some(3000))
     playSound2("water-3", times.head, volume = 3, rate = 1.0, pan = (-0.4, 0.1), bandPass = Some((300, 0.05)))
@@ -96,6 +104,7 @@ object ConcreteMusic5 {
     playSound2("water-3", times(3), volume = 3, rate = 1.0, pan = (0.3, -0.4), bandPass = Some((200, 0.05)))
 
     playSound2("knife-3", times(4) + 1.178, volume = 1.5, pan = (-0.1, 0.4), highPass = Some(9000))
+    playSound2("knife-3", times(4) + 1.178, volume = 3, pan = (-0.2, 0.6), bandPass = Some((100, 0.05)))
 
     playSound2("water-1", times(4), volume = 3, rate = 1.0, pan = (0.5, -0.2), bandPass = Some((300, 0.05)))
     playSound2("water-1", times(4), volume = 1, rate = 1.0, pan = (0.6, -0.4),  highPass = Some(8000))
@@ -112,8 +121,8 @@ object ConcreteMusic5 {
     playSound2("water-1", times(8), volume = 3, rate = 1.01, pan = (0.5, -0.2), bandPass = Some((400, 0.05)))
     playSound2("water-1", times(8), volume = 1, rate = 1.01, pan = (0.6, -0.4), highPass = Some(6000))
 
-
-    playSound2("knife-4", times(9) +  1.951, volume = 1.5, pan = (0.1, -0.4), highPass = Some(8000))
+    playSound2("knife-4", times(9) + 1.951, volume = 1.5, pan = (0.1, -0.4), highPass = Some(8000))
+    playSound2("knife-4", times(9) + 1.951, volume = 3, pan = (0.3, -0.6), bandPass = Some(400, 0.05))
 
     playSound2("water-3", times(9), volume = 1.0, rate = 1.0, pan = (-0.5, 0.2), highPass = Some(3000))
     playSound2("water-3", times(9), volume = 3, rate = 1.0, pan = (-0.4, 0.1), bandPass = Some((300, 0.05)))
@@ -122,6 +131,7 @@ object ConcreteMusic5 {
     playSound2("water-3", times(10), volume = 3, rate = 0.99, pan = (0.4, -0.1), bandPass = Some((200, 0.05)))
 
     playSound2("knife-3", times(11) + 1.178, volume = 1.5, pan = (-0.1, 0.4), highPass = Some(8000))
+    playSound2("knife-3", times(11) + 1.178, volume = 3, pan = (-0.2, 0.6), bandPass = Some((150, 0.05)))
 
     playSound2("water-1", times(11), volume = 3, rate = 1.0, pan = (0.5, -0.2), bandPass = Some((300, 0.05)))
     playSound2("water-1", times(11), volume = 1, rate = 1.0, pan = (0.6, -0.4),  highPass = Some(8000))
@@ -133,6 +143,8 @@ object ConcreteMusic5 {
     playSound2("water-1", times(13), volume = 1, rate = 1.01, pan = (0.4, -0.4), highPass = Some(5000))
 
     playSound2("knife-6", times(13) + 5.7, volume = 1.5, rate = 1, pan = (-0.3, 0.4), highPass = Some(8000))
+    playSound2("knife-6", times(13) + 5.7, volume = 3, rate = 1, pan = (-0.6, 0.7), bandPass = Some((100, 0.05)))
+
   }
 
   def testLongWater(start: Double = 0): Unit = {
