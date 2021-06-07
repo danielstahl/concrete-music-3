@@ -21,26 +21,26 @@ final case class SoundPlays(soundPlays: Map[String, SoundPlay],
     if(numberOfOutputBuses > 2) (outputBus % numberOfOutputBuses) + 2
     else outputBus % numberOfOutputBuses
 
-  def playSound2(name: String, startTime: Double, volume: Double = 1.0, rate: Double = 1.0, pan: (Double, Double) = (0.0, 0.0),
+  def playSound2(name: String, startTime: Double, volume: Double = 1.0, volumeControl: Double => ControlInstrument = amp => staticControl(amp), rate: Double = 1.0, pan: (Double, Double) = (0.0, 0.0),
                 lowPass: Option[Double] = None, highPass: Option[Double] = None, bandPass: Option[(Double, Double)] = None, ringModulate: Option[Double] = None,
                 outputBus: Int = 0)(implicit client: SuperColliderClient): Unit = {
-    playSoundInternal(name, startTime, volume, rate, lineControl(pan._1, pan._2), lowPass, highPass, bandPass, ringModulate, outputBus)
+    playSoundInternal(name, startTime, volume, volumeControl, rate, lineControl(pan._1, pan._2), lowPass, highPass, bandPass, ringModulate, outputBus)
   }
 
   def playSound(name: String, startTime: Double, volume: Double = 1.0, rate: Double = 1.0, pan: Double = 0.0,
                 lowPass: Option[Double] = None, highPass: Option[Double] = None, bandPass: Option[(Double, Double)] = None, ringModulate: Option[Double] = None,
                 outputBus: Int = 0)(implicit client: SuperColliderClient): Unit = {
-    playSoundInternal(name, startTime, volume, rate, staticControl(pan), lowPass, highPass, bandPass, ringModulate, outputBus)
+    playSoundInternal(name, startTime, volume, vol => staticControl(vol), rate, staticControl(pan), lowPass, highPass, bandPass, ringModulate, outputBus)
   }
 
-  def playSoundInternal(name: String, startTime: Double, volume: Double, rate: Double, pan: ControlInstrument,
+  def playSoundInternal(name: String, startTime: Double, volume: Double, volumeControl: Double => ControlInstrument = amp => staticControl(amp), rate: Double, pan: ControlInstrument,
                 lowPass: Option[Double], highPass: Option[Double], bandPass: Option[(Double, Double)], ringModulate: Option[Double],
                 outputBus: Int)(implicit client: SuperColliderClient): Unit = {
       val soundPlay = soundPlays(name)
 
       var note = StereoSoundNote(bufNum = soundPlay.bufNum, volume = volume * masterVolume)
-          .left(_.playLeft(soundPlay.start, soundPlay.end, rate, staticControl(volume)))
-          .right(_.playRight(soundPlay.start, soundPlay.end, rate, staticControl(volume)))
+          .left(_.playLeft(soundPlay.start, soundPlay.end, rate, volumeControl(volume)))
+          .right(_.playRight(soundPlay.start, soundPlay.end, rate, volumeControl(volume)))
           .mixAudio(soundPlay.amp(volume * masterVolume))
 
       note = ringModulate.map(freq => note.ring(staticControl(filterFreq(rate, freq)))).getOrElse(note)

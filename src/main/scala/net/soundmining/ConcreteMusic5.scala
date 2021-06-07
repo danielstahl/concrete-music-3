@@ -1,7 +1,7 @@
 package net.soundmining
 
 import net.soundmining.ConcreteMusic3.{SYNTH_DIR, client}
-import net.soundmining.modular.ModularSynth.relativeThreeBlockcontrol
+import net.soundmining.modular.ModularSynth.{lineControl, percControl, relativePercControl, relativeThreeBlockcontrol, xlineControl}
 import net.soundmining.synth.{Instrument, SoundPlay, SoundPlays}
 import net.soundmining.synth.SuperColliderClient.{allocRead, loadDir}
 
@@ -15,7 +15,7 @@ object ConcreteMusic5 {
     "knife-3" -> SoundPlay(2, 0.282, 2.00),
     "knife-4" -> SoundPlay(3, 0.256, 1.75),
     "knife-5" -> SoundPlay(4, 0.278, 1.638),
-    "knife-6" -> SoundPlay(5, 0.171, 1.307),
+    "knife-6" -> SoundPlay(5, 0.171, 1.307, peakTimes = Seq(0.505, 1.018)),
 
     // 1.178, 2.563, 4.936, 6.776, 8.650
     "water-1" -> SoundPlay(10, 0.091, 7.058, amp = amp => relativeThreeBlockcontrol(0, 0.001, amp, amp, 0.1, 0, Right(Instrument.SINE)), peakTimes = Seq(1.178, 2.563, 4.936, 6.776, 8.650)),
@@ -23,7 +23,7 @@ object ConcreteMusic5 {
     "water-3" -> SoundPlay(12, 0.0, 17.50, peakTimes = Seq(1.951, 3.303, 3.813, 7.308, 9.604, 10.306, 15.293, 16.543)),
     "water-4" -> SoundPlay(13, start = 0.345, end = 23.50),
     "water-5" -> SoundPlay(14, 0.587, 2.50),
-    "water-6" -> SoundPlay(15, 0.183, 3.276)
+    "water-6" -> SoundPlay(15, 0.183, 3.276, peakTimes = Seq(0.522, 0.933, 1.657, 1.991))
 
   )
 
@@ -65,8 +65,11 @@ object ConcreteMusic5 {
   will drop fractions of the sound and replace it with silence.
   * */
 
+/*
+Water that crossfade between highpass and lowpass.
+* */
 
-  def testRelative(start: Double = 0): Unit = {
+  def exposition1(start: Double = 0): Unit = {
     client.resetClock
 
     val times = Melody.absolute(start, Seq(
@@ -144,7 +147,87 @@ object ConcreteMusic5 {
 
     playSound2("knife-6", times(13) + 5.7, volume = 1.5, rate = 1, pan = (-0.3, 0.4), highPass = Some(8000))
     playSound2("knife-6", times(13) + 5.7, volume = 3, rate = 1, pan = (-0.6, 0.7), bandPass = Some((100, 0.05)))
+  }
 
+  def exposition2(start: Double = 0): Unit = {
+    client.resetClock
+
+    val knifeSound = soundPlays("knife-6")
+    val knifeLen = knifeSound.end - knifeSound.start
+    val waterSound = soundPlays("water-6")
+    val waterLen = waterSound.end - waterSound.start
+
+    val baseLen = waterLen + knifeLen - 0.505
+
+    println(s"knifelen $knifeLen waterlen $waterLen baselen $baseLen")
+
+    val times = Melody.absolute(start, Seq(
+      waterLen, waterLen, waterLen, baseLen,
+      waterLen, waterLen, waterLen, baseLen,
+      waterLen, waterLen, waterLen, waterLen, baseLen,
+      waterLen, waterLen, waterLen, baseLen))
+
+    playSound2("knife-6", times.head, volume = 1.0, rate = 1.0, pan = (-0.3, -0.9))
+    playSound2("knife-6", times.head, volume = 4.0, rate = 1.0, pan = (-0.4, -0.8), bandPass = Some((100, 0.05)))
+    playSound2("water-6", times.head + 0.505, volume = 1.0, rate = 1.0, pan = (0.3, 0.9))
+    playSound2("water-6", times.head + 0.505, volume = 3.0, rate = 1.0, pan = (0.4, 0.8), bandPass = Some((200, 0.05)))
+
+    playSound2("knife-6", times(1), volume = 1.0, rate = 1.0, pan = (-0.3, -0.9), highPass = Some(3000))
+    playSound2("water-6", times(1) + 0.505, volume = 1.0, rate = 1.0, pan = (0.3, 0.9), highPass = Some(3000))
+
+    playSound2("knife-6", times(2), volume = 1.0, rate = 1.0, pan = (-0.3, -0.9), highPass = Some(6000))
+    playSound2("water-6", times(2) + 0.505, volume = 1.0, rate = 1.0, pan = (0.3, 0.9), highPass = Some(6000))
+
+    playSound2("knife-6", times(3), volume = 1.0, rate = 1.0, pan = (-0.3, -0.9), highPass = Some(9000))
+    playSound2("water-6", times(3) + 0.505, volume = 1.0, rate = 1.0, pan = (0.3, 0.9), highPass = Some(9000))
+
+
+    playSound2("knife-6", times(4), volume = 1.0, rate = 1.0, pan = (-0.7, 0.5))
+    playSound2("knife-6", times(4), volume = 4.0, rate = 1.0, pan = (-0.8, 0.6), bandPass = Some((100, 0.05)))
+    playSound2("water-6", times(4), volume = 1.0, rate = 1.0, pan = (0.7, -0.5))
+    playSound2("water-6", times(4), volume = 3.0, rate = 1.0, pan = (0.8, -0.6), bandPass = Some((200, 0.05)))
+
+    playSound2("knife-6", times(5), volume = 3, rate = 1.0, pan = (-0.7, 0.5), bandPass = Some((400, 0.05)))
+    playSound2("water-6", times(5), volume = 3, rate = 1.0, pan = (0.7, -0.5), bandPass = Some((400, 0.05)))
+
+    playSound2("knife-6", times(6), volume = 3, rate = 1.0, pan = (-0.7, 0.5), bandPass = Some((300, 0.05)))
+    playSound2("water-6", times(6), volume = 3, rate = 1.0, pan = (0.7, -0.5), bandPass = Some((300, 0.05)))
+
+    playSound2("knife-6", times(7), volume = 3, rate = 1.0, pan = (-0.7, 0.5), bandPass = Some((200, 0.05)))
+    playSound2("water-6", times(7), volume = 3, rate = 1.0, pan = (0.7, -0.5), bandPass = Some((200, 0.05)))
+
+
+    playSound2("knife-6", times(8), volume = 1.0, rate = 1.0, pan = (-0.3, -0.9))
+    playSound2("knife-6", times(8), volume = 4.0, rate = 1.0, pan = (-0.4, -0.8), bandPass = Some((100, 0.05)))
+    playSound2("water-6", times(8) + 0.505, volume = 1.0, rate = 1.0, pan = (0.3, 0.9))
+    playSound2("water-6", times(8) + 0.505, volume = 3.0, rate = 1.0, pan = (0.4, 0.8), bandPass = Some((200, 0.05)))
+
+    playSound2("knife-6", times(9), volume = 1.0, rate = 1.0, pan = (-0.3, -0.9), highPass = Some(3000))
+    playSound2("water-6", times(9) + 0.505, volume = 1.0, rate = 1.0, pan = (0.3, 0.9), highPass = Some(3000))
+
+    playSound2("knife-6", times(10), volume = 1.0, rate = 1.0, pan = (-0.3, -0.9), highPass = Some(6000))
+    playSound2("water-6", times(10) + 0.505, volume = 1.0, rate = 1.0, pan = (0.3, 0.9), highPass = Some(6000))
+
+    playSound2("knife-6", times(11), volume = 1.0, rate = 1.0, pan = (-0.3, -0.9), highPass = Some(9000))
+    playSound2("water-6", times(11) + 0.505, volume = 1.0, rate = 1.0, pan = (0.3, 0.9), highPass = Some(9000))
+
+    playSound2("knife-6", times(12), volume = 1.0, rate = 1.0, pan = (-0.3, -0.9), highPass = Some(10000))
+    playSound2("water-6", times(12) + 0.505, volume = 1.0, rate = 1.0, pan = (0.3, 0.9), highPass = Some(10000))
+
+
+    playSound2("knife-6", times(13), volume = 1.0, rate = 1.0, pan = (-0.7, 0.5))
+    playSound2("knife-6", times(13), volume = 4.0, rate = 1.0, pan = (-0.8, 0.6), bandPass = Some((100, 0.05)))
+    playSound2("water-6", times(13), volume = 1.0, rate = 1.0, pan = (0.7, -0.5))
+    playSound2("water-6", times(13), volume = 3.0, rate = 1.0, pan = (0.8, -0.6), bandPass = Some((200, 0.05)))
+
+    playSound2("knife-6", times(14), volume = 3, rate = 1.0, pan = (-0.7, 0.5), bandPass = Some((400, 0.05)))
+    playSound2("water-6", times(14), volume = 3, rate = 1.0, pan = (0.7, -0.5), bandPass = Some((400, 0.05)))
+
+    playSound2("knife-6", times(15), volume = 3, rate = 1.0, pan = (-0.7, 0.5), bandPass = Some((300, 0.05)))
+    playSound2("water-6", times(15), volume = 3, rate = 1.0, pan = (0.7, -0.5), bandPass = Some((300, 0.05)))
+
+    playSound2("knife-6", times(16), volume = 3, rate = 1.0, pan = (-0.7, 0.5), bandPass = Some((200, 0.05)))
+    playSound2("water-6", times(16), volume = 3, rate = 1.0, pan = (0.7, -0.5), bandPass = Some((200, 0.05)))
   }
 
   def testLongWater(start: Double = 0): Unit = {
