@@ -187,6 +187,8 @@ Water that crossfade between highpass and lowpass.
 
       // Retrograde Inversion
       // 2 4 3 5 6
+
+
     }
 
     def development1(start: Double = 0): Unit = {
@@ -249,6 +251,130 @@ Water that crossfade between highpass and lowpass.
 
       playSound2("knife-4", times(4) + 16.543, volume = 3, pan = (-0.1, 0.4), bandPass = Some((middleHighScale(melody(4)), 0.05)))
       playSound2("knife-4", times(4) + 16.543, volume = 3, pan = (-0.3, 0.3), bandPass = Some((middleLowScale(melodyDelayed(4)), 0.05)))
+    }
+
+    def development2(start: Double = 0): Unit = {
+      client.resetClock
+
+      /*
+      We could do the short water sound a couple of times that is followed by
+      the long sound. End the short sound with knife.
+      short -------------------
+      knife                 ---
+      long            ----------------------
+
+      Start with low sound. Then high. Maybe do more then two
+      simultaneous "voices" at the same time.
+      * */
+
+      /*
+      For melody we could do inversion
+
+      inversion
+      6 5 3 4 2
+
+      inversion delay 2
+      3 4 2 6 5
+
+      inversion delay 2 delay 2
+      2 6 5 3 4
+
+      * */
+
+      // The low
+      // 250 550 700
+
+      // The high
+      // 3000 4500 9000
+      val shortTimes1 = Melody.absolute(start, Seq(
+        sounds("water-1").absoluteTime(2.563, 1.0),
+        sounds("water-1").absoluteTime(2.563, 0.99),
+        sounds("water-1").absoluteTime(2.563, 1.01),
+        sounds("water-1").absoluteTime(2.563, 0.99),
+        sounds("water-1").absoluteTime(2.563, 1)))
+
+      val longTimes = Melody.absolute(start + shortTimes1(3), Seq(
+        sounds("water-3").absoluteTime(7.308, 1.0),
+        sounds("water-3").absoluteTime(7.308, 1.01),
+        sounds("water-3").absoluteTime(7.308, 1.01)))
+
+      val shortTimes2 = Melody.absolute(start + longTimes(2), Seq(
+        sounds("water-1").absoluteTime(2.563, 0.99),
+        sounds("water-1").absoluteTime(2.563, 1)))
+
+      val melodyInversion = Seq(6, 5, 3, 4, 2)
+      val melodyInversionDelay = Seq(3, 4, 2, 6, 5)
+      val melodyInversionDelayDelay = Seq(2, 6, 5, 3, 4)
+
+      val lowScale1 = Melody.absolute(250, List.fill(7)((350 - 250) / 6))
+      val lowScale2 = Melody.absolute(550, List.fill(7)((600 - 550) / 6))
+      val lowScale3 = Melody.absolute(650, List.fill(7)((750 - 650) / 6))
+
+      val highScale1 = Melody.absolute(3000, List.fill(7)((4000 - 3000) / 6))
+      val highScale2 = Melody.absolute(4500, List.fill(7)((6000 - 4500) / 6))
+      val highScale3 = Melody.absolute(9000, List.fill(7)((10000 - 9000) / 6))
+
+
+      playSound2("water-1", shortTimes1.head, volume = 3, rate = 1, pan = (-0.9, -0.5), bandPass = Some((lowScale1(melodyInversion.head), 0.05)))
+      playSound2("water-1", shortTimes1.head, volume = 3, rate = 1, pan = (-0.7, -0.3), bandPass = Some((lowScale2(melodyInversionDelay.head), 0.05)))
+      playSound2("water-1", shortTimes1.head, volume = 2, rate = 1, pan = (-0.5, -0.1), bandPass = Some((lowScale3(melodyInversionDelayDelay.head), 0.05)))
+
+      playSound2("water-1", shortTimes1(1), volume = 3, rate = 0.99, pan = (0.9, 0.5), bandPass = Some((lowScale1(melodyInversion(1)), 0.05)))
+      playSound2("water-1", shortTimes1(1), volume = 3, rate = 0.99, pan = (0.7, 0.3), bandPass = Some((lowScale2(melodyInversionDelay(1)), 0.05)))
+      playSound2("water-1", shortTimes1(1), volume = 2, rate = 0.99, pan = (0.5, 0.1), bandPass = Some((lowScale3(melodyInversionDelayDelay(1)), 0.05)))
+
+      playSound2("water-1", shortTimes1(2), volume = 3, rate = 1.01, pan = (-0.9, -0.5), bandPass = Some((lowScale1(melodyInversion(2)), 0.05)))
+      playSound2("water-1", shortTimes1(2), volume = 3, rate = 1.01, pan = (-0.7, -0.3), bandPass = Some((lowScale2(melodyInversionDelay(2)), 0.05)))
+      playSound2("water-1", shortTimes1(2), volume = 2, rate = 1.01, pan = (-0.5, -0.1), bandPass = Some((lowScale3(melodyInversionDelayDelay(2)), 0.05)))
+
+
+      playSound2("water-3", longTimes.head, volume = 3, rate = 0.99, pan = (0.9, 0.5), bandPass = Some((highScale1(melodyInversion.head), 0.05)))
+      playSound2("water-3", longTimes.head, volume = 3, rate = 0.99, pan = (0.7, 0.3), bandPass = Some((highScale2(melodyInversionDelay.head), 0.05)))
+      playSound2("water-3", longTimes.head, volume = 2, rate = 0.99, pan = (0.5, 0.1), bandPass = Some((highScale3(melodyInversionDelayDelay.head), 0.05)))
+
+      playSound2("water-3", longTimes(1), volume = 3, rate = 1, pan = (-0.9, -0.5), bandPass = Some((highScale1(melodyInversion(1)), 0.05)))
+      playSound2("water-3", longTimes(1), volume = 3, rate = 1, pan = (-0.7, -0.3), bandPass = Some((highScale2(melodyInversionDelay(1)), 0.05)))
+      playSound2("water-3", longTimes(1), volume = 2, rate = 1, pan = (-0.5, -0.1), bandPass = Some((highScale3(melodyInversionDelayDelay(1)), 0.05)))
+
+
+      playSound2("water-1", shortTimes2.head, volume = 3, rate = 0.99, pan = (0.9, 0.5), bandPass = Some((highScale1(melodyInversion(2)), 0.05)))
+      playSound2("water-1", shortTimes2.head, volume = 3, rate = 0.99, pan = (0.7, 0.3), bandPass = Some((highScale2(melodyInversionDelay(2)), 0.05)))
+      playSound2("water-1", shortTimes2.head, volume = 2, rate = 0.99, pan = (0.5, 0.1), bandPass = Some((highScale3(melodyInversionDelayDelay(2)), 0.05)))
+
+      playSound2("water-1", shortTimes2(1), volume = 3, rate = 1, pan = (-0.9, -0.5), bandPass = Some((highScale1(melodyInversion(3)), 0.05)))
+      playSound2("water-1", shortTimes2(1), volume = 3, rate = 1, pan = (-0.7, -0.3), bandPass = Some((highScale2(melodyInversionDelay(3)), 0.05)))
+      playSound2("water-1", shortTimes2(1), volume = 2, rate = 1, pan = (-0.5, -0.1), bandPass = Some((highScale3(melodyInversionDelayDelay(3)), 0.05)))
+
+
+      playSound2("knife-3", shortTimes2(1) + 1.178, volume = 3, pan = (0.4, -0.2), bandPass = Some((highScale1(melodyInversion(3)), 0.05)))
+      playSound2("knife-3", shortTimes2(1) + 1.178, volume = 3, pan = (0.3, -0.3), bandPass = Some((highScale2(melodyInversionDelay(3)), 0.05)))
+      playSound2("knife-3", shortTimes2(1) + 1.178, volume = 3, pan = (0.3, -0.3), bandPass = Some((highScale3(melodyInversionDelayDelay(3)), 0.05)))
+    }
+
+    def recapitulation(start: Double = 0): Unit = {
+      client.resetClock
+
+      val highScale = Melody.absolute(2000, List.fill(7)((9000 - 2000) / 6))
+      val lowScale = Melody.absolute(200, List.fill(7)((400 - 200) / 6))
+
+      val times = Melody.absolute(start, Seq(
+        sounds("water-3").absoluteTime(10.306, 1.0),
+        sounds("water-1").absoluteTime(4.936, 1.0)
+      ))
+
+      playSound2("water-3", times.head, volume = 1.0, rate = 1.0, pan = (-0.5, 0.2), highPass = Some(highScale(melody.head)))
+      playSound2("water-3", times.head, volume = 3, rate = 1.0, pan = (-0.4, 0.1), bandPass = Some((lowScale(melodyDelayed.head), 0.05)))
+
+      playSound2("knife-4", times.head + 1.951, volume = 1, pan = (-0.1, 0.4), highPass = Some(highScale(melody.head)))
+      playSound2("knife-4", times.head + 1.951, volume = 2, pan = (-0.3, 0.3), bandPass = Some(lowScale(melodyDelayed.head), 0.05))
+
+
+      playSound2("water-1", times(1), volume = 1, rate = 0.99, pan = (0.6, -0.4),  highPass = Some(highScale(melody(2))))
+      playSound2("water-1", times(1), volume = 2, rate = 0.99, pan = (0.5, -0.2), bandPass = Some((lowScale(melodyDelayed(2)), 0.05)))
+
+      playSound2("knife-6", times(1) + 5.7, volume = 1, rate = 1, pan = (0.3, -0.4), highPass = Some(highScale(melody(2))))
+      playSound2("knife-6", times(1) + 5.7, volume = 2, rate = 1, pan = (0.6, -0.7), bandPass = Some((lowScale(melodyDelayed(2)), 0.05)))
+
     }
   }
 
