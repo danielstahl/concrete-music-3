@@ -15,7 +15,7 @@ abstract class SoundNote(bufNum: Integer = 0, volume: Double = 1.0) {
     def playLeft(start: Double, end: Double, rate: Double, amp: ControlInstrument): SelfType = {
         audio = Some(
             Audio(
-                audio = left(playBuffer(bufNum, rate, start, end, staticControl(volume)).withNrOfChannels(2).addAction(TAIL_ACTION), amp).addAction(TAIL_ACTION), 
+                audio = left(stereoPlayBuffer(bufNum, rate, start, end, staticControl(volume)).withNrOfChannels(2).addAction(TAIL_ACTION), amp).addAction(TAIL_ACTION),
                 dur = math.abs((end - start) / rate)))
         self()    
     }
@@ -23,7 +23,7 @@ abstract class SoundNote(bufNum: Integer = 0, volume: Double = 1.0) {
     def playRight(start: Double, end: Double, rate: Double, amp: ControlInstrument): SelfType = {
         audio = Some(
             Audio(
-                audio = right(playBuffer(bufNum, rate, start, end, staticControl(volume)).withNrOfChannels(2).addAction(TAIL_ACTION), amp).addAction(TAIL_ACTION),
+                audio = right(stereoPlayBuffer(bufNum, rate, start, end, staticControl(volume)).withNrOfChannels(2).addAction(TAIL_ACTION), amp).addAction(TAIL_ACTION),
                 dur = math.abs((end - start) / rate)))
         self()    
     }
