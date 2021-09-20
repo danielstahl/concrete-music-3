@@ -1,4 +1,4 @@
-name := "musique-concrete-iii"
+name := "concrete-music-3"
 
 version := "1.0-SNAPSHOT"
 
