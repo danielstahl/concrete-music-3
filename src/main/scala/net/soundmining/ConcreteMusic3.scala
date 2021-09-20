@@ -3,8 +3,6 @@ package net.soundmining
 import net.soundmining.synth._
 import SuperColliderClient._
 import net.soundmining.modular.ModularSynth._
-import scala.annotation.switch
-import net.soundmining.synth._
 import net.soundmining.synth.SoundPlay
 
 
@@ -638,14 +636,13 @@ object  ConcreteMusic3 {
     }
 
     def init(): Unit = {
-        println("Starting up SupderCollider client")
+        println("Starting up SuperCollider client")
         client.start
         Instrument.setupNodes(client)
         client.send(loadDir(SYNTH_DIR))
 
         client.send(allocRead(0, s"${SOUND_BASE_DIR}tiles-rattle.flac"))
         client.send(allocRead(1, s"${SOUND_BASE_DIR}tiles-scratch-1.flac"))
-        client.send(allocRead(2, s"${SOUND_BASE_DIR}clock-spring-1.flac"))
 
         // Look at the synth def here https://github.com/supercollider/supercollider/blob/3.11/SCClassLibrary/Common/GUI/tools/ServerMeter.sc
         // https://www.scala-lang.org/api/current/scala/Console$.html

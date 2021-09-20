@@ -18,9 +18,9 @@ libraryDependencies += "org.quifft" % "quifft" % "0.1.1"
 
 console / initialCommands := """
     |import net.soundmining._
-    |WaterAndKnife.init()
+    |ConcreteMusic3.init()
 """.trim().stripMargin
 
 console / cleanupCommands += """
-    WaterAndKnife.stop()
+    ConcreteMusic3.stop()
 """

@@ -1,2 +1,2 @@
-# musique-concrete-iii
-The third Musique Concrete piece
+# Concrete Music 3
+The third concrete music piece
